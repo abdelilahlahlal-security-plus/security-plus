@@ -173,9 +173,6 @@ function htmlToBlocks(html: string) {
     const parts = html.split(/<\/?(p|h2|blockquote|ul|li)>/).filter(p => p.trim() !== '')
 
     // Naive parsing based on visual splitting
-    // A better approach for this specific data: regex execution
-
-    const regex = /<(p|h2|blockquote|ul)>(.*?)<\/\1>|<ul>(.*?)<\/ul>/gs
     // Actually the data is well formatted.
     // Let's iterate over the string and find tags.
 
