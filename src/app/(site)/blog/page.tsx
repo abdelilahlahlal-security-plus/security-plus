@@ -22,23 +22,28 @@ export default async function BlogPage({
     searchParams: Promise<{ tag?: string }>;
 }) {
     const { tag } = await searchParams;
-    const posts = await getPosts();
+    const posts = (await getPosts()) || [];
 
     // Transform Sanity posts to component format
-    const formattedPosts = posts.map((post: any) => {
+    const formattedPosts = Array.isArray(posts) ? posts.map((post: any) => {
         const text = blocksToText(post.body);
+        const dateObj = post.publishedAt ? new Date(post.publishedAt) : new Date();
+        const displayDate = isNaN(dateObj.getTime())
+            ? 'Date inconnue'
+            : dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
         return {
-            title: post.title,
-            slug: post.slug,
-            date: new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
-            author: "L'équipe Security Plus", // Placeholder as schema doesn't have author yet
+            title: post.title || 'Sans titre',
+            slug: post.slug || '#',
+            date: displayDate,
+            author: "L'équipe Security Plus",
             category: post.categories?.[0]?.title || 'Actualité',
-            image: post.mainImage ? urlFor(post.mainImage).url() : '/images/pattern-security.png', // Fallback or placeholder
+            image: post.mainImage ? urlFor(post.mainImage).url() : '/images/pattern-security.png',
             excerpt: text.length > 150 ? text.substring(0, 150) + '...' : text,
             readTime: Math.ceil(text.split(' ').length / 200) + ' min',
-            tags: [] // Tags not in schema yet
+            tags: []
         };
-    });
+    }) : [];
 
     // Filter by tag if needed (though tags aren't in schema yet, keeping logic for future)
     const filteredPosts = tag

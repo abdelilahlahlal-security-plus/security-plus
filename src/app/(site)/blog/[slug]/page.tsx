@@ -30,26 +30,38 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }
 
     // Prepare display data
-    const daDate = new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const dateObj = post.publishedAt ? new Date(post.publishedAt) : new Date();
+    const daDate = isNaN(dateObj.getTime())
+        ? 'Date inconnue'
+        : dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
     const author = "L'équipe Security Plus"; // Static for now
     const category = post.categories?.[0]?.title || 'Actualité';
     const imageUrl = post.mainImage ? urlFor(post.mainImage).url() : '/images/pattern-security.png';
+
     // Calculate read time roughly
-    const text = post.body?.map((b: any) => b.children?.map((c: any) => c.text).join('')).join(' ') || '';
+    const text = Array.isArray(post.body)
+        ? post.body.map((b: any) => b.children?.map((c: any) => c.text).join('')).join(' ')
+        : '';
     const readTime = Math.ceil(text.split(' ').length / 200) + ' min';
 
     // Fetch recent posts for sidebar (exclude current)
     const allPosts = await getPosts();
-    const recentPosts = allPosts
+    const recentPosts = Array.isArray(allPosts) ? allPosts
         .filter((p: any) => p.slug !== slug)
         .slice(0, 3)
-        .map((p: any) => ({
-            title: p.title,
-            slug: p.slug,
-            date: new Date(p.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
-            category: p.categories?.[0]?.title || 'Actualité',
-            image: p.mainImage ? urlFor(p.mainImage).url() : '/images/pattern-security.png'
-        }));
+        .map((p: any) => {
+            const rDateObj = p.publishedAt ? new Date(p.publishedAt) : new Date();
+            const rDate = isNaN(rDateObj.getTime()) ? 'Date inconnue' : rDateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            return {
+                title: p.title,
+                slug: p.slug,
+                date: rDate,
+                category: p.categories?.[0]?.title || 'Actualité',
+                image: p.mainImage ? urlFor(p.mainImage).url() : '/images/pattern-security.png'
+            };
+        }) : [];
 
     return (
         <>

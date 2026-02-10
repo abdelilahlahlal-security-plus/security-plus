@@ -26,12 +26,12 @@ export default async function sitemap(): Promise<Metadata & { url: string; lastM
         priority: route === '' ? 1 : 0.8,
     }));
 
-    const blogEntries = posts.map((post: any) => ({
+    const blogEntries = Array.isArray(posts) ? posts.map((post: any) => ({
         url: `${siteUrl}/blog/${post.slug}`,
         lastModified: post.publishedAt || new Date().toISOString(),
         changeFrequency: 'monthly' as const,
         priority: 0.7,
-    }));
+    })) : [];
 
     return [...staticEntries, ...blogEntries];
 }
