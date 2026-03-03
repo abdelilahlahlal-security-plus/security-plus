@@ -77,6 +77,7 @@ export function Header({ settings }: HeaderProps) {
                                 (scrolled || !isHome) ? "brightness-100 invert-0 dark:brightness-0 dark:invert" : "brightness-0 invert"
                             )}
                             priority
+                            sizes="(max-width: 768px) 48px, 64px"
                         />
                     </div>
                     <div className="flex flex-col">

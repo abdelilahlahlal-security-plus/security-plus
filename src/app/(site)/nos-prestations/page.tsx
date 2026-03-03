@@ -121,7 +121,7 @@ export default async function ServicesPage() {
         title: s.title,
         content: s.content || s.description,
         icon: (Icons as any)[s.iconName || "Shield"] || Shield,
-        image: s.image ? urlFor(s.image).url() : "/images/placeholder.jpg",
+        image: s.image ? urlFor(s.image).url() : "/images/hero-bg.png",
         features: s.features || []
     })) : defaultServices;
 

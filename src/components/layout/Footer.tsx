@@ -65,7 +65,8 @@ export function Footer({ settings }: FooterProps) {
                                     src={settings?.footerLogo ? urlFor(settings.footerLogo).url() : "/logo.png"}
                                     alt={settings?.siteTitle || "Security Plus Logo"}
                                     fill
-                                    className="object-contain brightness-0 invert"
+                                    className="object-contain transition-all duration-300 brightness-0 invert"
+                                    sizes="(max-width: 768px) 48px, 64px"
                                 />
                             </div>
                             <span className="text-2xl font-bold tracking-tight">

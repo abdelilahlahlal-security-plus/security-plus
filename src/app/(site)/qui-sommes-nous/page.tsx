@@ -69,6 +69,7 @@ export default async function AboutPage() {
                                 alt="Équipe Security Plus"
                                 fill
                                 className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
                     </div>

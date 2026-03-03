@@ -40,7 +40,7 @@ export function Sectors({ data }: SectorsProps) {
     const sectors = data?.sectors?.length
         ? data.sectors.map(s => ({
             ...s,
-            image: s.image ? urlFor(s.image).url() : "/images/placeholder.jpg",
+            image: s.image ? urlFor(s.image).url() : "/images/hero-bg.png",
         }))
         : defaultSectors;
 
