@@ -1,52 +1,93 @@
-import { PageHeader } from "@/components/layout/PageHeader";
-
-export default function PolitiqueConfidentialitePage() {
+export default function PrivacyPolicyPage() {
     return (
-        <>
-            <PageHeader
-                title="Politique de Confidentialité"
-                description="Nous accordons une importance capitale à la protection de vos données personnelles et au respect de votre vie privée."
-            />
+        <div className="container-custom py-20 bg-white dark:bg-neutral-950 min-h-screen">
+            <h1 className="text-4xl font-bold mb-12 text-gray-900 dark:text-white">Politique de confidentialité</h1>
 
-            <section className="py-20 bg-white dark:bg-neutral-950 transition-colors">
-                <div className="container-custom prose prose-blue dark:prose-invert max-w-4xl mx-auto">
-                    <h2>1. Collecte de l'information</h2>
+            <div className="space-y-10 text-gray-700 dark:text-gray-300">
+                <section>
                     <p>
-                        Nous recueillons des informations lorsque vous remplissez un formulaire sur notre site (Demande de devis, Contact, Recrutement). Les informations recueillies incluent votre nom, votre adresse e-mail, votre numéro de téléphone et toute autre information facultative que vous nous soumettez.
+                        Le site web <strong>SECURITY PLUS</strong> est détenu par <strong>SECURITY PLUS</strong>, qui est un contrôleur de données de vos données personnelles.
                     </p>
+                    <br />
+                    <p>
+                        Nous avons adopté cette politique de confidentialité, qui détermine la manière dont nous traitons les informations collectées par SECURITY PLUS, qui fournit également les raisons pour lesquelles nous devons collecter certaines données personnelles vous concernant. Par conséquent, vous devez lire cette politique de confidentialité avant d’utiliser le site web de SECURITY PLUS.
+                    </p>
+                    <br />
+                    <p>
+                        Nous prenons soin de vos données personnelles et nous nous engageons à en garantir la confidentialité et la sécurité.
+                    </p>
+                </section>
 
-                    <h2>2. Utilisation des informations</h2>
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Les informations personnelles que nous collectons :</h2>
                     <p>
-                        Toutes les informations que nous recueillons auprès de vous peuvent être utilisées pour :
+                        Lorsque vous visitez le SECURITY PLUS, nous recueillons automatiquement certaines informations sur votre appareil, notamment des informations sur votre navigateur web, votre adresse IP, votre fuseau horaire et certains des cookies installés sur votre appareil. En outre, lorsque vous naviguez sur le site, nous recueillons des informations sur les pages web ou les produits individuels que vous consultez, sur les sites web ou les termes de recherche qui vous ont renvoyé au site et sur la manière dont vous interagissez avec le site. Nous désignons ces informations collectées automatiquement par le terme « informations sur les appareils ». En outre, nous pourrions collecter les données personnelles que vous nous fournissez (y compris, mais sans s’y limiter, le nom, le prénom, l’adresse, les informations de paiement, etc.) lors de l’inscription afin de pouvoir exécuter le contrat.
                     </p>
-                    <ul>
-                        <li>Traiter vos demandes de devis et vous contacter</li>
-                        <li>Améliorer le service client et vos besoins de prise en charge</li>
-                        <li>Vous contacter par e-mail ou téléphone</li>
-                        <li>Gérer un concours, une promotion ou une enquête</li>
+                </section>
+
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Pourquoi traitons-nous vos données ?</h2>
+                    <p>
+                        Notre priorité absolue est la sécurité des données des clients et, à ce titre, nous ne pouvons traiter que des données minimales sur les utilisateurs, uniquement dans la mesure où cela est absolument nécessaire pour maintenir le site web. Les informations collectées automatiquement sont utilisées uniquement pour identifier les cas potentiels d’abus et établir des informations statistiques concernant l’utilisation du site web. Ces informations statistiques ne sont pas autrement agrégées de manière à identifier un utilisateur particulier du système.
+                    </p>
+                    <br />
+                    <p>
+                        Vous pouvez visiter le site web sans nous dire qui vous êtes ni révéler d’informations, par lesquelles quelqu’un pourrait vous identifier comme un individu spécifique et identifiable. Toutefois, si vous souhaitez utiliser certaines fonctionnalités du site web, ou si vous souhaitez recevoir notre lettre d’information ou fournir d’autres détails en remplissant un formulaire, vous pouvez nous fournir des données personnelles, telles que votre e-mail, votre prénom, votre nom, votre ville de résidence, votre organisation, votre numéro de téléphone. Vous pouvez choisir de ne pas nous fournir vos données personnelles, mais il se peut alors que vous ne puissiez pas profiter de certaines fonctionnalités du site web. Par exemple, vous ne pourrez pas recevoir notre bulletin d’information ou nous contacter directement à partir du site web. Les utilisateurs qui ne savent pas quelles informations sont obligatoires sont invités à nous contacter via <a href="mailto:contact@security-plus.fr" className="text-primary hover:underline">contact@security-plus.fr</a>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Vos droits :</h2>
+                    <p>
+                        Si vous êtes un résident européen, vous disposez des droits suivants liés à vos données personnelles :
+                    </p>
+                    <ul className="list-disc pl-5 mt-2 space-y-1">
+                        <li>Le droit d’être informé.</li>
+                        <li>Le droit d’accès.</li>
+                        <li>Le droit de rectification.</li>
+                        <li>Le droit à l’effacement.</li>
+                        <li>Le droit de restreindre le traitement.</li>
+                        <li>Le droit à la portabilité des données.</li>
+                        <li>Le droit d’opposition.</li>
+                        <li>Les droits relatifs à la prise de décision automatisée et au profilage.</li>
                     </ul>
-
-                    <h2>3. Confidentialité des données</h2>
-                    <p>
-                        Nous sommes les seuls propriétaires des informations collectées sur ce site. Vos informations personnelles ne seront pas vendues, échangées, transférées, ou données à une autre société pour n'importe quelle raison, sans votre consentement, en dehors de ce qui est nécessaire pour répondre à une demande.
+                    <p className="mt-2">
+                        Si vous souhaitez exercer ce droit, veuillez nous contacter via les coordonnées ci-dessous.
                     </p>
-
-                    <h2>4. Protection des informations</h2>
+                    <br />
                     <p>
-                        Nous mettons en œuvre une variété de mesures de sécurité pour préserver la sécurité de vos informations personnelles. Nous utilisons un cryptage à la pointe de la technologie pour protéger les informations sensibles transmises en ligne (Protocole SSL).
+                        En outre, si vous êtes un résident européen, nous notons que nous traitons vos informations afin d’exécuter les contrats que nous pourrions avoir avec vous (par exemple, si vous passez une commande par le biais du site), ou autrement pour poursuivre nos intérêts commerciaux légitimes énumérés ci-dessus. En outre, veuillez noter que vos informations pourraient être transférées en dehors de l’Europe, y compris au Canada et aux États-Unis.
                     </p>
+                </section>
 
-                    <h2>5. Droit d'accès et de retrait</h2>
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Liens vers d’autres sites web :</h2>
                     <p>
-                        Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit en nous contactant via l'adresse : contact@security-plus.fr.
+                        Notre site web peut contenir des liens vers d’autres sites web qui ne sont pas détenus ou contrôlés par nous. Sachez que nous ne sommes pas responsables de ces autres sites web ou des pratiques de confidentialité des tiers. Nous vous encourageons à être attentif lorsque vous quittez notre site web et à lire les déclarations de confidentialité de chaque site web susceptible de collecter des informations personnelles.
                     </p>
+                </section>
 
-                    <h2>6. Cookies</h2>
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Sécurité de l’information :</h2>
                     <p>
-                        Nos cookies améliorent l'accès à notre site et identifient les visiteurs réguliers. En outre, nos cookies améliorent l'expérience d'utilisateur grâce au suivi et au ciblage de ses intérêts. Cependant, cette utilisation des cookies n'est en aucune façon liée à des informations personnelles identifiables sur notre site.
+                        Nous sécurisons les informations que vous fournissez sur des serveurs informatiques dans un environnement contrôlé et sécurisé, protégé contre tout accès, utilisation ou divulgation non autorisés. Nous conservons des garanties administratives, techniques et physiques raisonnables pour nous protéger contre tout accès, utilisation, modification et divulgation non autorisés des données personnelles sous son contrôle et sa garde. Toutefois, aucune transmission de données sur Internet ou sur un réseau sans fil ne peut être garantie.
                     </p>
-                </div>
-            </section>
-        </>
+                </section>
+
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Divulgation légale :</h2>
+                    <p>
+                        Nous divulguerons toute information que nous collectons, utilisons ou recevons si la loi l’exige ou l’autorise, par exemple pour nous conformer à une citation à comparaître ou à une procédure judiciaire similaire, et lorsque nous pensons de bonne foi que la divulgation est nécessaire pour protéger nos droits, votre sécurité ou celle d’autrui, enquêter sur une fraude ou répondre à une demande du gouvernement.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Informations de contact :</h2>
+                    <p>
+                        Si vous souhaitez nous contacter pour comprendre davantage la présente politique ou si vous souhaitez nous contacter concernant toute question relative aux droits individuels et à vos informations personnelles, vous pouvez envoyer un courriel à <a href="mailto:contact@security-plus.fr" className="text-primary hover:underline">contact@security-plus.fr</a>.
+                    </p>
+                </section>
+            </div>
+        </div>
     );
 }

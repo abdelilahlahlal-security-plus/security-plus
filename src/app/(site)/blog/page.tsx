@@ -2,19 +2,10 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, User, ArrowRight, X } from "lucide-react";
-import { getPosts, urlFor } from "@/lib/sanity";
+import { Calendar, User, ArrowRight } from "lucide-react";
+import { blogPosts } from "@/lib/blogData";
 
-function blocksToText(blocks: any[] = []) {
-    return blocks
-        .map(block => {
-            if (block._type !== 'block' || !block.children) {
-                return ''
-            }
-            return block.children.map((child: any) => child.text).join('')
-        })
-        .join('\n\n')
-}
+import { X } from "lucide-react";
 
 export default async function BlogPage({
     searchParams,
@@ -22,33 +13,10 @@ export default async function BlogPage({
     searchParams: Promise<{ tag?: string }>;
 }) {
     const { tag } = await searchParams;
-    const posts = (await getPosts()) || [];
 
-    // Transform Sanity posts to component format
-    const formattedPosts = Array.isArray(posts) ? posts.map((post: any) => {
-        const text = blocksToText(post.body);
-        const dateObj = post.publishedAt ? new Date(post.publishedAt) : new Date();
-        const displayDate = isNaN(dateObj.getTime())
-            ? 'Date inconnue'
-            : dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-
-        return {
-            title: post.title || 'Sans titre',
-            slug: post.slug || '#',
-            date: displayDate,
-            author: "L'équipe Security Plus",
-            category: post.categories?.[0]?.title || 'Actualité',
-            image: post.mainImage ? urlFor(post.mainImage).url() : '/images/pattern-security.png',
-            excerpt: text.length > 150 ? text.substring(0, 150) + '...' : text,
-            readTime: Math.ceil(text.split(' ').length / 200) + ' min',
-            tags: []
-        };
-    }) : [];
-
-    // Filter by tag if needed (though tags aren't in schema yet, keeping logic for future)
     const filteredPosts = tag
-        ? formattedPosts.filter((post: any) => post.tags?.includes(tag))
-        : formattedPosts;
+        ? blogPosts.filter(post => post.tags?.includes(tag))
+        : blogPosts;
 
     return (
         <>
@@ -80,20 +48,15 @@ export default async function BlogPage({
 
                     {filteredPosts.length > 0 ? (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredPosts.map((post: any) => (
+                            {filteredPosts.map((post) => (
                                 <article key={post.slug} className="bg-white dark:bg-neutral-950 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col h-full border border-gray-100 dark:border-neutral-800 group">
                                     <Link href={`/blog/${post.slug}`} className="relative h-56 overflow-hidden block">
-                                        {post.image && (
-                                            <Image
-                                                src={post.image}
-                                                alt={post.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
-                                        )}
-                                        {!post.image && (
-                                            <div className="w-full h-full bg-gray-200 dark:bg-gray-800" />
-                                        )}
+                                        <Image
+                                            src={post.image}
+                                            alt={post.title}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
                                         <div className="absolute top-4 left-4 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary dark:text-primary-light uppercase tracking-wide shadow-sm">
                                             {post.category}
                                         </div>
@@ -118,7 +81,7 @@ export default async function BlogPage({
                                             {post.excerpt}
                                         </p>
                                         <div className="mt-auto pt-6 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                                            <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{post.readTime}</span>
+                                            <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{post.readTime} de lecture</span>
                                             <Link href={`/blog/${post.slug}`} className="text-primary dark:text-primary-light font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
                                                 Lire la suite <ArrowRight size={16} />
                                             </Link>

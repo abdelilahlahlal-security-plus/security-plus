@@ -43,3 +43,5 @@ next-env.d.ts
 # temp
 test_node.js
 node_modules
+/security-plus-main/
+/src/temp/

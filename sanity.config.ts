@@ -20,19 +20,100 @@ const structure = (S: any) =>
         .items([
             // Singleton Settings
             S.listItem()
-                .title('⚙️ Paramètres Globaux')
+                .title('Paramètres Globaux')
+                .icon(() => '⚙️')
                 .child(
                     S.document()
                         .schemaType('settings')
                         .documentId('settings')
                 ),
             S.divider(),
-            // Page d'accueil
+            // Page d'accueil (Direct Editor)
             S.listItem()
-                .title('🏠 Page d\'Accueil')
+                .title('Page d\'Accueil')
+                .icon(() => '🏠')
+                .child(
+                    S.document()
+                        .schemaType('pageHome')
+                        .documentId('pageHome')
+                ),
+            S.divider(),
+            S.listItem()
+                .title('Articles Blog')
+                .icon(() => '📝')
+                .child(
+                    S.documentList()
+                        .title('Articles')
+                        .filter('_type == "post"')
+                ),
+            S.listItem()
+                .title('Catégories')
+                .icon(() => '🏷️')
+                .child(
+                    S.documentList()
+                        .title('Catégories')
+                        .filter('_type == "category"')
+                ),
+            S.divider(),
+            // Pages Spécifiques (Singletons)
+            S.listItem()
+                .title('Page Contact')
+                .icon(() => '📞')
+                .child(
+                    S.document()
+                        .schemaType('pageContact')
+                        .documentId('contact')
+                ),
+            S.listItem()
+                .title('Page Nos Prestations')
+                .icon(() => '🛠️')
+                .child(
+                    S.document()
+                        .schemaType('pagePrestations')
+                        .documentId('nos-prestations')
+                ),
+            S.listItem()
+                .title('Page Qui Sommes-Nous')
+                .icon(() => '🤝')
+                .child(
+                    S.document()
+                        .schemaType('pageAbout')
+                        .documentId('about')
+                ),
+            S.listItem()
+                .title('Page Devis')
+                .icon(() => '📄')
+                .child(
+                    S.document()
+                        .schemaType('pageDevis')
+                        .documentId('devis')
+                ),
+            S.listItem()
+                .title('Page Recrutement')
+                .icon(() => '💼')
+                .child(
+                    S.document()
+                        .schemaType('pageRecrutement')
+                        .documentId('recrutement')
+                ),
+            S.divider(),
+            // Autres Pages
+            S.listItem()
+                .title('Autres Pages (Génériques)')
+                .icon(() => '📂')
+                .child(
+                    S.documentTypeList('page')
+                        .title('Pages')
+                        .filter('_type == "page" && !(_id in ["contact", "nos-prestations", "about", "devis", "recrutement"])')
+                ),
+            /* Commented out as these types are not fully implemented/defined yet
+            S.divider(),
+            // Données de sections / Collections
+            S.listItem()
+                .title('📦 Collections de Données')
                 .child(
                     S.list()
-                        .title('Sections de la page d\'accueil')
+                        .title('Données partagées')
                         .items([
                             S.documentTypeListItem('service').title('🛡️ Services'),
                             S.documentTypeListItem('feature').title('⭐ Avantages'),
@@ -42,13 +123,7 @@ const structure = (S: any) =>
                             S.documentTypeListItem('department').title('📍 Départements (Carte)'),
                         ])
                 ),
-            S.divider(),
-            // Blog
-            S.documentTypeListItem('post').title('📝 Articles Blog'),
-            S.documentTypeListItem('category').title('🏷️ Catégories'),
-            S.divider(),
-            // Pages
-            S.documentTypeListItem('page').title('📄 Pages'),
+            */
         ])
 
 export default defineConfig({

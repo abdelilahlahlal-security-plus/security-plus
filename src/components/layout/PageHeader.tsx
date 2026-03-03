@@ -1,50 +1,50 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 interface PageHeaderProps {
     title: string;
     description?: string;
-    backgroundImage?: string;
+    image?: string;
+    className?: string;
 }
 
-export function PageHeader({ title, description, backgroundImage }: PageHeaderProps) {
+export function PageHeader({
+    title,
+    description,
+    image = "/images/page-header-bg.png",
+    className
+}: PageHeaderProps) {
     return (
-        <section className="relative py-24 bg-primary text-white overflow-hidden">
-            {/* Background Image/Pattern */}
+        <div className={cn("relative py-24 bg-gray-900 border-b border-gray-800", className)}>
             <div
-                className="absolute inset-0 z-0 opacity-20 bg-cover bg-center"
+                className="absolute inset-0 z-0 bg-cover bg-center opacity-40"
                 style={{
-                    backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'url(/images/pattern-security.png)',
-                    backgroundColor: '#002C5F'
+                    backgroundImage: `url('${image}')`,
                 }}
             />
+            <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-[2px]" />
 
-            <div className="container-custom relative z-10 text-center">
+            <div className="container-custom relative z-10 text-center pt-16">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-4xl md:text-5xl font-bold mb-6"
+                    className="text-4xl md:text-5xl font-bold text-white mb-4"
                 >
                     {title}
                 </motion.h1>
-
                 {description && (
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto leading-relaxed"
+                        transition={{ delay: 0.1 }}
+                        className="text-xl text-gray-300 max-w-2xl mx-auto"
                     >
                         {description}
                     </motion.p>
                 )}
             </div>
-
-            {/* Decorative elements */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-        </section>
+        </div>
     );
 }

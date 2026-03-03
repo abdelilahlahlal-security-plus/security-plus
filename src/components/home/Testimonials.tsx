@@ -1,7 +1,5 @@
-"use client";
-
 import { Star } from "lucide-react";
-import type { SanityTestimonial, SanitySettings } from "@/lib/sanity";
+import type { SanityPageHome } from "@/lib/sanity";
 
 // Google G Logo Component
 const GoogleLogo = () => (
@@ -15,14 +13,38 @@ const GoogleLogo = () => (
     </svg>
 );
 
-type TestimonialsProps = {
-    testimonials: SanityTestimonial[];
-    settings: SanitySettings | null;
-};
+const defaultTestimonials = [
+    {
+        content: "Très bonne expérience avec SECURITY PLUS. Entreprise sérieuse, professionnelle et réactive. L'équipe est à l'écoute et a su répondre rapidement à nos besoins.",
+        author: "Abdelilah Yamoune",
+        date: "il y a 2 semaines",
+        rating: 5,
+        keywords: "Sérieux, Professionnalisme, Réactivité"
+    },
+    {
+        content: "Excellent prestataire pour la sécurité de notre événement d'entreprise. Les agents étaient ponctuels, bien présentés et ont géré l'accueil avec beaucoup de courtoisie.",
+        author: "Benjamin Lalande",
+        date: "il y a 1 mois",
+        rating: 5,
+        keywords: "Ponctualité, Courtoisie"
+    },
+    {
+        content: "Entreprise de sécurité très fiable. Nous les utilisons pour des rondes nocturnes. Les rapports sont détaillés et la communication est fluide avec la direction.",
+        author: "Pierre S.",
+        date: "il y a 3 mois",
+        rating: 5,
+        keywords: "Fiabilité, Communication"
+    },
+];
 
-export function Testimonials({ testimonials, settings }: TestimonialsProps) {
-    const googleReviewUrl = settings?.googleReviewUrl || "https://share.google/kIW2bfbHXE0YXR9jS";
-    const googleReviewScore = settings?.googleReviewScore ?? 5.0;
+interface TestimonialsProps {
+    data?: SanityPageHome | null;
+}
+
+export function Testimonials({ data }: TestimonialsProps) {
+    const testimonials = data?.testimonials?.length ? data.testimonials : defaultTestimonials;
+    const overallRating = data?.testimonialsRating || "5.0";
+    const reviewsLink = data?.testimonialsLink || "https://share.google/kIW2bfbHXE0YXR9jS";
 
     return (
         <section className="py-24 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-neutral-900 transition-colors">
@@ -34,13 +56,13 @@ export function Testimonials({ testimonials, settings }: TestimonialsProps) {
                             Avis Clients
                         </h2>
                         <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                            Ce qu&apos;ils disent de nous
+                            Ce qu'ils disent de nous
                         </h3>
                     </div>
 
                     <div className="flex flex-col items-start md:items-end">
                         <div className="flex items-center gap-2 mb-1">
-                            <span className="text-2xl font-bold text-gray-900 dark:text-white">{googleReviewScore.toFixed(1)}</span>
+                            <span className="text-2xl font-bold text-gray-900 dark:text-white">{overallRating}</span>
                             <div className="flex gap-0.5 text-[#FBBC05]">
                                 {[...Array(5)].map((_, i) => (
                                     <Star key={i} size={20} fill="currentColor" className="stroke-none" />
@@ -54,8 +76,8 @@ export function Testimonials({ testimonials, settings }: TestimonialsProps) {
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                    {testimonials.map((t) => (
-                        <div key={t._id} className="bg-white dark:bg-[#18181b] p-6 rounded-xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    {testimonials.map((t, idx) => (
+                        <div key={idx} className="bg-white dark:bg-[#18181b] p-6 rounded-xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
                             {/* Google Header Style */}
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
@@ -73,7 +95,7 @@ export function Testimonials({ testimonials, settings }: TestimonialsProps) {
                             {/* Stars */}
                             <div className="flex gap-0.5 mb-3 text-[#FBBC05]">
                                 {[...Array(5)].map((_, i) => (
-                                    <Star key={i} size={16} fill={i < t.rating ? "currentColor" : "none"} className={i < t.rating ? "stroke-none" : "text-gray-300 dark:text-gray-600"} />
+                                    <Star key={i} size={16} fill={i < (t.rating || 5) ? "currentColor" : "none"} className={i < (t.rating || 5) ? "stroke-none" : "text-gray-300 dark:text-gray-600"} />
                                 ))}
                             </div>
 
@@ -101,7 +123,7 @@ export function Testimonials({ testimonials, settings }: TestimonialsProps) {
 
                 <div className="mt-12 text-center">
                     <a
-                        href={googleReviewUrl}
+                        href={reviewsLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-primary dark:text-primary-light hover:underline font-medium transition-all"

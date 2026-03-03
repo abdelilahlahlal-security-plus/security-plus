@@ -1,12 +1,19 @@
-import { ReactNode } from "react";
+"use client";
 
-interface MainContentProps {
-    children: ReactNode;
-}
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-export function MainContent({ children }: MainContentProps) {
+export function MainContent({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const isHomePage = pathname === "/";
+
     return (
-        <main className="flex-grow flex flex-col min-h-screen pt-16">
+        <main
+            className={cn(
+                "flex-grow transition-all duration-300",
+                isHomePage ? "pt-0" : "pt-20"
+            )}
+        >
             {children}
         </main>
     );

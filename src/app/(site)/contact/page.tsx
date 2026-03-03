@@ -1,142 +1,138 @@
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Button } from "@/components/ui/Button";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Suspense } from "react";
+import { getPageContact, getSettings, urlFor } from "@/lib/sanity";
+import { Metadata } from "next";
 
-export default function ContactPage() {
+export async function generateMetadata(): Promise<Metadata> {
+    const page = await getPageContact();
+    const title = page?.seo?.title || "Contactez-nous - Security Plus | Devis & Informations";
+    const description = page?.seo?.description || "Besoin d'un devis pour un agent de sécurité à Bordeaux ? Contactez notre agence de sécurité privée en Gironde (33). Accueil téléphonique 24h/7j.";
+    const ogImage = page?.seo?.image ? urlFor(page.seo.image).width(1200).height(630).url() : null;
+
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            images: ogImage ? [{ url: ogImage }] : [],
+            type: 'website',
+        },
+        robots: page?.seo?.noIndex ? 'noindex, nofollow' : 'index, follow',
+    }
+}
+
+export default async function ContactPage() {
+    const data = await getPageContact();
+    const settings = await getSettings();
+
+    const phone = settings?.phone || "05 56 44 02 79";
+    // Remove spaces for the tel: link
+    const phoneLink = `tel:${phone.replace(/\s+/g, '')}`;
+    const email = settings?.email || "contact@security-plus.fr";
+
     return (
         <>
             <PageHeader
-                title="Contactez-Nous"
-                description="Une question ? Un besoin urgent ? Nos équipes sont à votre écoute 24h/24 et 7j/7 pour vous accompagner."
+                title={data?.headerTitle || "Contactez-nous"}
+                description={data?.headerDescription || "Une question ? Un projet ? Nos experts sont à votre écoute pour vous conseiller."}
+                image={data?.headerImage ? urlFor(data.headerImage).url() : undefined}
             />
 
-            <section className="py-20 bg-white dark:bg-neutral-950 transition-colors">
+            <section className="py-20 bg-gray-50 dark:bg-neutral-900">
                 <div className="container-custom">
-                    <div className="grid lg:grid-cols-3 gap-12">
-                        {/* Contact Information */}
-                        <div className="lg:col-span-1 space-y-8">
+                    <div id="formulaire" className="grid lg:grid-cols-3 gap-12 scroll-mt-32">
+
+                        {/* Contact Info */}
+                        <div className="space-y-8">
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Nos Coordonnées</h2>
-                                <p className="text-gray-600 dark:text-gray-400 mb-8">
-                                    N'hésitez pas à nous contacter par téléphone ou par email. Vous pouvez également nous rendre visite dans nos bureaux sur rendez-vous.
+                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Nos Coordonnées</h3>
+                                <p className="text-gray-600 dark:text-gray-300 mb-8 whitespace-pre-line">
+                                    {data?.contactInfoText || "N'hésitez pas à nous rendre visite ou à nous contacter par téléphone pour toute demande urgente."}
                                 </p>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                                        <Phone size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Téléphone</p>
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white">05 56 44 02 79</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                                        <Mail size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</p>
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white">contact@security-plus.fr</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                    <div className="p-3 bg-primary/10 dark:bg-primary-light/10 text-primary dark:text-primary-light rounded-lg shrink-0">
                                         <MapPin size={24} />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Adresse</p>
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white">Nouvelle-Aquitaine, France</p>
-                                        <p className="text-gray-500">Intervention 50km autour de Bordeaux</p>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Adresse</h4>
+                                        <div className="text-gray-600 dark:text-gray-300 whitespace-pre-line">
+                                            {settings?.address ? (
+                                                <p>{settings.address}</p>
+                                            ) : (
+                                                <p>Bordeaux et agglomération</p>
+                                            )}
+                                            <p className="mt-1 font-medium">{data?.zoneIntervention || "Zone d'intervention : 50 km alentour"}</p>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                    <div className="p-3 bg-primary/10 dark:bg-primary-light/10 text-primary dark:text-primary-light rounded-lg shrink-0">
+                                        <Phone size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Téléphone</h4>
+                                        <a href={phoneLink} className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors">
+                                            {phone}
+                                        </a>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Permanence 24h/7j</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4">
+                                    <div className="p-3 bg-primary/10 dark:bg-primary-light/10 text-primary dark:text-primary-light rounded-lg shrink-0">
+                                        <Mail size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Email</h4>
+                                        <a href={`mailto:${email}`} className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors">
+                                            {email}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4">
+                                    <div className="p-3 bg-primary/10 dark:bg-primary-light/10 text-primary dark:text-primary-light rounded-lg shrink-0">
                                         <Clock size={24} />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Horaires</p>
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white">Disponibilité 24h/24 - 7j/7</p>
-                                        <p className="text-gray-500">Bureaux : Lun-Ven 9h-18h</p>
+                                        <h4 className="font-bold text-gray-900 dark:text-white">Horaires Bureau</h4>
+                                        <div className="text-gray-600 dark:text-gray-300 whitespace-pre-line">
+                                            {data?.officeHours || "Lundi - Vendredi : 9h00 - 18h00\nSamedi - Dimanche : Astreinte Téléphonique"}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Contact Form */}
-                        <div className="lg:col-span-2 bg-gray-50 dark:bg-neutral-900 p-8 md:p-12 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm" id="formulaire">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Envoyez-nous un message</h2>
-                            <form className="grid md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300">Nom complet *</label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        required
-                                        placeholder="Jean Dupont"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 focus:ring-2 focus:ring-primary outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Email *</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        required
-                                        placeholder="jean@exemple.com"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 focus:ring-2 focus:ring-primary outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label htmlFor="phone" className="text-sm font-medium text-gray-700 dark:text-gray-300">Téléphone</label>
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        placeholder="06 00 00 00 00"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 focus:ring-2 focus:ring-primary outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label htmlFor="subject" className="text-sm font-medium text-gray-700 dark:text-gray-300">Sujet *</label>
-                                    <select
-                                        id="subject"
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 focus:ring-2 focus:ring-primary outline-none transition-all appearance-none"
-                                    >
-                                        <option value="">Sélectionnez un sujet</option>
-                                        <option value="devis">Demande de devis</option>
-                                        <option value="gardiennage">Gardiennage</option>
-                                        <option value="intervention">Intervention d'urgence</option>
-                                        <option value="recrutement">Recrutement</option>
-                                        <option value="autre">Autre demande</option>
-                                    </select>
-                                </div>
-                                <div className="md:col-span-2 space-y-2">
-                                    <label htmlFor="message" className="text-sm font-medium text-gray-700 dark:text-gray-300">Message *</label>
-                                    <textarea
-                                        id="message"
-                                        required
-                                        rows={6}
-                                        placeholder="Comment pouvons-nous vous aider ?"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 focus:ring-2 focus:ring-primary outline-none transition-all resize-none"
-                                    ></textarea>
-                                </div>
-                                <div className="md:col-span-2">
-                                    <Button className="w-full sm:w-auto h-12 px-8 text-base">
-                                        Envoyer le message <Send size={18} className="ml-2" />
-                                    </Button>
-                                    <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-                                        * En envoyant ce formulaire, vous acceptez que vos données soient traitées pour répondre à votre demande conformément à notre politique de confidentialité.
-                                    </p>
-                                </div>
-                            </form>
+                        {/* Form */}
+                        <div className="lg:col-span-2">
+                            <Suspense fallback={<div className="p-8 bg-white dark:bg-neutral-950 rounded-xl h-96 animate-pulse">Chargement du formulaire...</div>}>
+                                <ContactForm />
+                            </Suspense>
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Map Section */}
+            <section className="h-[400px] w-full bg-gray-200">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90479.52909470876!2d-0.6750375961689255!3d44.86370881026071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5527e8f751ca81%3A0x796386037b397a89!2sBordeaux!5e0!3m2!1sfr!2sfr!4v1709564245645!5m2!1sfr!2sfr"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="grayscale hover:grayscale-0 transition-all duration-500"
+                ></iframe>
             </section>
         </>
     );

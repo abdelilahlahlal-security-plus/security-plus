@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Shield, Activity, Users } from 'lucide-react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useTheme } from 'next-themes';
-import type { SanityDepartment } from '@/lib/sanity';
-
-type InteractiveMapProps = {
-    departmentStats?: SanityDepartment[];
-};
+import type { SanityPageHome } from "@/lib/sanity";
 
 // Departments - Aquitaine South/West focus
 const departments = [
@@ -69,35 +65,38 @@ const getFillColor = (id: string) => {
     return dept ? dept.fill : '#cbd5e1';
 };
 
-export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
-    // Merge Sanity stats with local SVG path data
-    const mergedDepartments = useMemo(() => {
-        if (!departmentStats || departmentStats.length === 0) return departments;
-        return departments.map(dept => {
-            const sanityData = departmentStats.find(d => d.departmentId === dept.id);
-            if (sanityData) {
-                return {
-                    ...dept,
-                    name: sanityData.name || dept.name,
-                    stats: {
-                        clients: sanityData.clients ?? dept.stats.clients,
-                        agents: sanityData.agents ?? dept.stats.agents,
-                        sites: sanityData.sites ?? dept.stats.sites,
-                    },
-                };
-            }
-            return dept;
-        });
-    }, [departmentStats]);
+interface InteractiveMapProps {
+    data?: SanityPageHome | null;
+}
 
+export function InteractiveMap({ data }: InteractiveMapProps) {
     // Persistent selection (clicked)
-    const [selectedDept, setSelectedDept] = useState<typeof departments[0]>(mergedDepartments[0]);
+    const [selectedDept, setSelectedDept] = useState<typeof departments[0]>(departments[0]);
     // Temporary hover (visual feedback)
     const [hoveredDept, setHoveredDept] = useState<typeof departments[0] | null>(null);
 
     // activeDept determines what is currently shown.
     // Logic: If hovering something, show that. If not, show what is selected.
     const displayDept = hoveredDept || selectedDept;
+
+    // Merge Sanity data if available
+    const getMergedStats = (deptId: string, localStats: any) => {
+        const sanityDept = data?.mapDepartments?.find(d => d.id === deptId);
+        if (!sanityDept) return localStats;
+        return {
+            sites: sanityDept.sitesCount ?? localStats.sites,
+            agents: sanityDept.agentsCount ?? localStats.agents,
+            clients: sanityDept.clientsCount ?? localStats.clients,
+        };
+    };
+
+    const getMergedName = (deptId: string, localName: string) => {
+        const sanityDept = data?.mapDepartments?.find(d => d.id === deptId);
+        return sanityDept?.name || localName;
+    };
+
+    const currentStats = getMergedStats(displayDept.id, displayDept.stats);
+    const currentName = getMergedName(displayDept.id, displayDept.name);
 
     const handleMouseEnter = (dept: typeof departments[0]) => {
         setHoveredDept(dept);
@@ -125,10 +124,10 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
             <div className="container-custom relative z-10">
                 <div className="text-center mb-12">
                     <h2 className="text-primary dark:text-primary-light font-bold tracking-wide uppercase text-sm mb-2">
-                        Notre Rayonnement
+                        {data?.mapSubtitle || "Notre Rayonnement"}
                     </h2>
                     <h3 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
-                        Nouvelle-Aquitaine
+                        {data?.mapTitle || "Nouvelle-Aquitaine"}
                     </h3>
                 </div>
 
@@ -140,7 +139,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                             className="w-full h-auto max-h-[600px] drop-shadow-xl"
                             style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))' }}
                         >
-                            {mergedDepartments.map((dept) => {
+                            {departments.map((dept) => {
                                 // Is this department currently the one being displayed/highlighted?
                                 const isHighlighted = displayDept.id === dept.id;
                                 // Is this department the one permanently selected?
@@ -198,7 +197,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                             >
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-                                        {displayDept.name}
+                                        {currentName}
                                     </h3>
                                     <span className="text-6xl font-bold text-gray-500 dark:text-gray-400 tabular-nums tracking-tighter">
                                         {displayDept.id}
@@ -217,7 +216,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                                                 <span className="text-xs text-gray-700 dark:text-gray-400">Actifs 24/7</span>
                                             </div>
                                         </div>
-                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{displayDept.stats.sites}</span>
+                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{currentStats.sites}</span>
                                     </div>
 
                                     {/* Agents */}
@@ -231,7 +230,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                                                 <span className="text-xs text-gray-700 dark:text-gray-400">Intervention rapide</span>
                                             </div>
                                         </div>
-                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{displayDept.stats.agents}</span>
+                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{currentStats.agents}</span>
                                     </div>
 
                                     {/* Clients */}
@@ -245,7 +244,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                                                 <span className="text-xs text-gray-700 dark:text-gray-400">Dans ce secteur</span>
                                             </div>
                                         </div>
-                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{displayDept.stats.clients}</span>
+                                        <span className="text-xl font-bold text-gray-900 dark:text-white">{currentStats.clients}</span>
                                     </div>
                                 </div>
 
@@ -253,7 +252,7 @@ export function InteractiveMap({ departmentStats }: InteractiveMapProps) {
                                     <Link
                                         href={`/devis?location=${displayDept.id}#formulaire-devis`}
                                         className="w-full relative overflow-hidden rounded-xl group block"
-                                        aria-label={`Demander un devis pour ${displayDept.name} (${displayDept.id})`}
+                                        aria-label={`Demander un devis pour ${currentName} (${displayDept.id})`}
                                     >
                                         <div
                                             className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity"

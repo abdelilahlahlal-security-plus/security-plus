@@ -1,50 +1,46 @@
-import { createClient } from '@sanity/client'
-import { apiVersion, dataset, projectId } from '@/sanity/env'
+import { createClient, type QueryParams } from 'next-sanity'
+import imageUrlBuilder from '@sanity/image-url'
+
+// Définir ces valeurs en fonction de votre configuration Sanity
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-01-01'
 
 export const client = createClient({
     projectId,
     dataset,
     apiVersion,
     useCdn: true,
-    perspective: 'published',
 })
 
-// — Types —
+const builder = imageUrlBuilder(client)
 
-export type SanitySettings = {
-    title?: string
-    description?: string
-    cnaps?: string
-    footerDescription?: string
-    phone?: string
-    phoneRaw?: string
-    email?: string
-    address?: string
-    heroBadge?: string
-    heroTitle?: string
-    heroTitleHighlight?: string
-    heroDescription?: string
-    heroImage?: SanityImageRef
-    heroStatsLabel?: string
-    heroStatsSubLabel?: string
-    ctaTitle?: string
-    ctaDescription?: string
-    featuresSubtitle?: string
-    featuresTitle?: string
-    featuresDescription?: string
-    featuresHighlightValue?: string
-    featuresHighlightText?: string
-    navigationLinks?: { name: string; href: string }[]
-    footerServicesLinks?: { name: string; href: string }[]
-    footerCompanyLinks?: { name: string; href: string }[]
-    footerLegalLinks?: { name: string; href: string }[]
-    socialLinks?: { platform: string; url: string }[]
-    googleReviewUrl?: string
-    googleReviewScore?: number
-    logo?: SanityImageRef
+export function urlFor(source: any) {
+    return builder.image(source)
 }
 
-export type SanityImageRef = {
+export async function sanityFetch<QueryResponse>({
+    query,
+    params = {},
+    revalidate = 3600,
+    tags = [],
+}: {
+    query: string;
+    params?: QueryParams;
+    revalidate?: number | false;
+    tags?: string[];
+}) {
+    return client.fetch<QueryResponse>(query, params, {
+        next: {
+            revalidate: tags.length > 0 ? false : revalidate,
+            tags,
+        },
+    });
+}
+
+// --- TYPES ---
+
+export type SanityImage = {
     _type: 'image'
     asset: {
         _ref: string
@@ -52,159 +48,235 @@ export type SanityImageRef = {
     }
 }
 
-export type SanityService = {
-    _id: string
-    title: string
-    description: string
-    icon: string
-    href?: string
-    color?: string
-    order?: number
+export type SanitySeo = {
+    title?: string
+    description?: string
+    image?: SanityImage
+    noIndex?: boolean
 }
 
-export type SanityFeature = {
-    _id: string
-    name: string
-    description: string
-    icon: string
-    order?: number
+// 1. Settings globaux
+export type SanitySettings = {
+    title?: string
+    siteTitle?: string
+    description?: string
+    headerLogo?: SanityImage
+    footerLogo?: SanityImage
+    phone?: string
+    email?: string
+    address?: string
+    navigation?: { name: string; href: string }[]
+    socialLinks?: { platform: string; url: string }[]
+    footerServicesLinks?: { name: string; href: string }[]
+    footerCompanyLinks?: { name: string; href: string }[]
+    footerLegalLinks?: { name: string; href: string }[]
+    floatingButtonColor?: string
+    floatingButtonActions?: {
+        label: string
+        href: string
+        iconName?: string
+        iconBgColor?: string
+        iconColor?: string
+    }[]
+    cnaps?: string
+    smtp_host?: string
+    smtp_port?: number
+    smtp_user?: string
+    smtp_pass?: string
+    from_email?: string
+    to_email?: string
 }
 
-export type SanitySector = {
-    _id: string
-    name: string
-    description: string
-    icon: string
-    image: SanityImageRef
-    order?: number
+// 2. Page Accueil
+export type SanityPageHome = {
+    seo?: SanitySeo
+    heroTitle?: string
+    heroSubtitle?: string
+    heroDescription?: string
+    heroImage?: SanityImage
+    servicesSubtitle?: string
+    servicesTitle?: string
+    servicesDescription?: string
+    services?: {
+        title: string
+        description: string
+        iconName?: string
+        href?: string
+        color?: string
+    }[]
+    featuresSubtitle?: string
+    featuresTitle?: string
+    featuresDescription?: string
+    featuresStatValue?: string
+    featuresStatLabel?: string
+    features?: {
+        title: string
+        description: string
+        iconName?: string
+    }[]
+    sectorsSubtitle?: string
+    sectorsTitle?: string
+    sectors?: {
+        name: string
+        description: string
+        iconName?: string
+        image?: SanityImage
+    }[]
+    testimonials?: {
+        content: string
+        author: string
+        date?: string
+        rating?: number
+        keywords?: string
+    }[]
+    testimonialsRating?: string
+    testimonialsLink?: string
+    mapSubtitle?: string
+    mapTitle?: string
+    mapDescription?: string
+    mapDepartments?: {
+        id: string
+        name?: string
+        sitesCount?: number
+        agentsCount?: number
+        clientsCount?: number
+    }[]
+    faqs?: {
+        question: string
+        answer: string
+    }[]
+    ctaTitle?: string
+    ctaDescription?: string
+    ctaButtonText?: string
+    ctaPhoneText?: string
 }
 
-export type SanityTestimonial = {
-    _id: string
-    author: string
-    content: string
-    rating: number
-    date?: string
-    keywords?: string
+// 3. Page Prestations
+export type SanityPagePrestations = {
+    seo?: SanitySeo
+    headerTitle?: string
+    headerDescription?: string
+    headerImage?: SanityImage
+    prestations?: {
+        id: string
+        title: string
+        description: string
+        content?: string
+        iconName: string
+        image: SanityImage
+        features: string[]
+    }[]
+    ctaTitle?: string
+    ctaDescription?: string
+    ctaButtonText?: string
 }
 
-export type SanityFaq = {
-    _id: string
-    question: string
-    answer: string
-    order?: number
+
+// 4. Page Qui Sommes-Nous
+export type SanityPageAbout = {
+    seo?: SanitySeo
+    headerTitle?: string
+    headerDescription?: string
+    headerImage?: SanityImage
+    storySubtitle?: string
+    storyTitle?: string
+    storyContent?: any[]
+    storyImage?: SanityImage
+    valuesSubtitle?: string
+    valuesTitle?: string
+    values?: {
+        title: string
+        description: string
+    }[]
+    certificationLabel?: string
+    certificationPrefix?: string
+    certificationNumber?: string
 }
 
-export type SanityDepartment = {
-    _id: string
-    departmentId: string
-    name: string
-    clients: number
-    agents: number
-    sites: number
+
+// 5. Page Contact
+export type SanityPageContact = {
+    seo?: SanitySeo
+    headerTitle?: string
+    headerDescription?: string
+    headerImage?: SanityImage
+    contactInfoText?: string
+    officeHours?: string
+    zoneIntervention?: string
 }
 
-// — GROQ Queries —
-
-export async function getSettings(): Promise<SanitySettings | null> {
-    return client.fetch(
-        `*[_type == "settings"][0]{
-            title, description, cnaps, footerDescription,
-            phone, phoneRaw, email, address,
-            heroBadge, heroTitle, heroTitleHighlight, heroDescription,
-            heroImage, heroStatsLabel, heroStatsSubLabel,
-            ctaTitle, ctaDescription,
-            featuresSubtitle, featuresTitle, featuresDescription,
-            featuresHighlightValue, featuresHighlightText,
-            navigationLinks[]{name, href},
-            footerServicesLinks[]{name, href},
-            footerCompanyLinks[]{name, href},
-            footerLegalLinks[]{name, href},
-            socialLinks[]{platform, url},
-            googleReviewUrl, googleReviewScore,
-            logo
-        }`
-    )
+// 6. Page Devis
+export type SanityPageDevis = {
+    seo?: SanitySeo
+    headerTitle?: string
+    headerDescription?: string
+    headerImage?: SanityImage
 }
 
-export async function getServices(): Promise<SanityService[]> {
-    return client.fetch(
-        `*[_type == "service"] | order(order asc){
-            _id, title, description, icon, href, color, order
-        }`
-    )
+// 7. Page Recrutement
+export type SanityPageRecrutement = {
+    seo?: SanitySeo
+    headerTitle?: string
+    headerDescription?: string
+    headerImage?: SanityImage
+    careerTitle?: string
+    careerDescription?: string
+    careerAdvantages?: string[]
+    jobOffers?: {
+        id: string
+        title: string
+        location: string
+        type: string
+    }[]
 }
 
-export async function getFeatures(): Promise<SanityFeature[]> {
-    return client.fetch(
-        `*[_type == "feature"] | order(order asc){
-            _id, name, description, icon, order
-        }`
-    )
+// --- FETCHERS ---
+
+export async function getSettings() {
+    return sanityFetch<SanitySettings | null>({
+        query: `*[_type == "settings"][0]`,
+        tags: ['settings']
+    })
 }
 
-export async function getSectors(): Promise<SanitySector[]> {
-    return client.fetch(
-        `*[_type == "sector"] | order(order asc){
-            _id, name, description, icon, image, order
-        }`
-    )
+export async function getPageHome() {
+    return sanityFetch<SanityPageHome | null>({
+        query: `*[_type == "pageHome"][0]`,
+        tags: ['pageHome']
+    })
 }
 
-export async function getTestimonials(): Promise<SanityTestimonial[]> {
-    return client.fetch(
-        `*[_type == "testimonial"]{
-            _id, author, content, rating, date, keywords
-        }`
-    )
+export async function getPagePrestations() {
+    return sanityFetch<SanityPagePrestations | null>({
+        query: `*[_type == "pagePrestations"][0]`,
+        tags: ['pagePrestations']
+    })
 }
 
-export async function getFaqs(): Promise<SanityFaq[]> {
-    return client.fetch(
-        `*[_type == "faq"] | order(order asc){
-            _id, question, answer, order
-        }`
-    )
+export async function getPageAbout() {
+    return sanityFetch<SanityPageAbout | null>({
+        query: `*[_type == "pageAbout"][0]`,
+        tags: ['pageAbout']
+    })
 }
 
-export async function getDepartments(): Promise<SanityDepartment[]> {
-    return client.fetch(
-        `*[_type == "department"]{
-            _id, departmentId, name, clients, agents, sites
-        }`
-    )
+export async function getPageContact() {
+    return sanityFetch<SanityPageContact | null>({
+        query: `*[_type == "pageContact"][0]`,
+        tags: ['pageContact']
+    })
 }
 
-export async function getPosts() {
-    return client.fetch(
-        `*[_type == "post"] | order(publishedAt desc){
-            _id, title, "slug": slug.current, mainImage, publishedAt, 
-            "categories": categories[]->{ _id, title },
-            body
-        }`
-    )
+export async function getPageDevis() {
+    return sanityFetch<SanityPageDevis | null>({
+        query: `*[_type == "pageDevis"][0]`,
+        tags: ['pageDevis']
+    })
 }
 
-export async function getPostBySlug(slug: string) {
-    return client.fetch(
-        `*[_type == "post" && slug.current == $slug][0]{
-            _id, title, "slug": slug.current, mainImage, publishedAt,
-            "categories": categories[]->{ _id, title },
-            body,
-            "author": author->name, 
-            "readTime": round(length(pt::text(body)) / 5 / 180 + 1) + " min"
-        }`,
-        { slug }
-    )
-}
-
-// — Image URL Builder —
-import imageUrlBuilder from '@sanity/image-url'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SanityImageSource = Parameters<ReturnType<typeof imageUrlBuilder>['image']>[0]
-
-const builder = imageUrlBuilder(client)
-
-export function urlFor(source: SanityImageSource) {
-    return builder.image(source)
+export async function getPageRecrutement() {
+    return sanityFetch<SanityPageRecrutement | null>({
+        query: `*[_type == "pageRecrutement"][0]`,
+        tags: ['pageRecrutement']
+    })
 }

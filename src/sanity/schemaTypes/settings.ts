@@ -4,310 +4,139 @@ export const settings = defineType({
     name: 'settings',
     title: 'Paramètres du Site',
     type: 'document',
-    icon: () => '⚙️',
     groups: [
         { name: 'general', title: 'Général' },
         { name: 'contact', title: 'Contact' },
-        { name: 'hero', title: 'Hero (Accueil)' },
-        { name: 'cta', title: 'CTA Final' },
-        { name: 'features', title: 'Section Avantages' },
-        { name: 'navigation', title: 'Navigation' },
-        { name: 'social', title: 'Réseaux Sociaux' },
+        { name: 'navigation', title: 'Navigation & Footer' },
+        { name: 'floating', title: 'Bouton Flottant' },
+        { name: 'smtp', title: 'Configuration SMTP' },
     ],
     fields: [
-        // — General —
+        defineField({ name: 'siteTitle', title: 'Nom du site', type: 'string', group: ['general', 'navigation'] }),
+        defineField({ name: 'description', title: 'Description (SEO & Footer)', type: 'text', group: ['general', 'navigation'] }),
+        defineField({ name: 'headerLogo', title: 'Logo (Header)', type: 'image', group: ['general', 'navigation'] }),
+        defineField({ name: 'footerLogo', title: 'Logo (Footer)', type: 'image', group: ['general', 'navigation'] }),
         defineField({
-            name: 'title',
-            title: 'Nom du site',
-            type: 'string',
-            group: 'general',
-            initialValue: 'SECURITY PLUS',
-        }),
-        defineField({
-            name: 'description',
-            title: 'Description du site (SEO)',
-            type: 'text',
-            rows: 3,
-            group: 'general',
-        }),
-        defineField({
-            name: 'logo',
-            title: 'Logo',
-            type: 'image',
-            group: 'general',
-            options: { hotspot: true },
-        }),
-        defineField({
-            name: 'cnaps',
-            title: 'Numéro d\'agrément CNAPS',
-            type: 'string',
-            group: 'general',
-            initialValue: 'AUT-033-2116-09-26-2017-0620770',
-        }),
-        defineField({
-            name: 'footerDescription',
-            title: 'Description du Footer',
-            type: 'text',
-            rows: 3,
-            group: 'general',
-        }),
-
-        // — Contact —
-        defineField({
-            name: 'phone',
-            title: 'Téléphone',
-            type: 'string',
-            group: 'contact',
-            initialValue: '05 56 44 02 79',
-        }),
-        defineField({
-            name: 'phoneRaw',
-            title: 'Téléphone (brut, pour href)',
-            type: 'string',
-            group: 'contact',
-            description: 'Format sans espaces pour le lien tel: (ex: 0556440279)',
-            initialValue: '0556440279',
-        }),
-        defineField({
-            name: 'email',
-            title: 'Email',
-            type: 'string',
-            group: 'contact',
-            initialValue: 'contact@security-plus.fr',
-        }),
-        defineField({
-            name: 'address',
-            title: 'Adresse',
-            type: 'text',
-            rows: 2,
-            group: 'contact',
-        }),
-
-        // — Hero —
-        defineField({
-            name: 'heroBadge',
-            title: 'Badge du Hero',
-            type: 'string',
-            group: 'hero',
-            initialValue: 'Sécurité Privée en Nouvelle-Aquitaine',
-        }),
-        defineField({
-            name: 'heroTitle',
-            title: 'Titre du Hero (ligne 1)',
-            type: 'string',
-            group: 'hero',
-            initialValue: 'Votre sécurité est',
-        }),
-        defineField({
-            name: 'heroTitleHighlight',
-            title: 'Titre du Hero (partie colorée)',
-            type: 'string',
-            group: 'hero',
-            initialValue: 'notre priorité absolue',
-        }),
-        defineField({
-            name: 'heroDescription',
-            title: 'Description du Hero',
-            type: 'text',
-            rows: 3,
-            group: 'hero',
-        }),
-        defineField({
-            name: 'heroImage',
-            title: 'Image de fond du Hero',
-            type: 'image',
-            group: 'hero',
-            options: { hotspot: true },
-        }),
-        defineField({
-            name: 'heroStatsLabel',
-            title: 'Label stats Hero',
-            type: 'string',
-            group: 'hero',
-            initialValue: 'Agents certifiés',
-        }),
-        defineField({
-            name: 'heroStatsSubLabel',
-            title: 'Sous-label stats Hero',
-            type: 'string',
-            group: 'hero',
-            initialValue: 'Disponibles 24/7',
-        }),
-
-        // — CTA Final —
-        defineField({
-            name: 'ctaTitle',
-            title: 'Titre du CTA final',
-            type: 'string',
-            group: 'cta',
-            initialValue: 'Prêt à sécuriser votre activité ?',
-        }),
-        defineField({
-            name: 'ctaDescription',
-            title: 'Description du CTA final',
-            type: 'text',
-            rows: 3,
-            group: 'cta',
-        }),
-
-        // — Section Features/Avantages —
-        defineField({
-            name: 'featuresSubtitle',
-            title: 'Sous-titre section Avantages',
-            type: 'string',
-            group: 'features',
-            initialValue: 'Pourquoi Security Plus ?',
-        }),
-        defineField({
-            name: 'featuresTitle',
-            title: 'Titre section Avantages',
-            type: 'string',
-            group: 'features',
-        }),
-        defineField({
-            name: 'featuresDescription',
-            title: 'Description section Avantages',
-            type: 'text',
-            rows: 3,
-            group: 'features',
-        }),
-        defineField({
-            name: 'featuresHighlightValue',
-            title: 'Valeur mise en avant (ex: 100%)',
-            type: 'string',
-            group: 'features',
-            initialValue: '100%',
-        }),
-        defineField({
-            name: 'featuresHighlightText',
-            title: 'Texte de la valeur mise en avant',
-            type: 'string',
-            group: 'features',
-        }),
-
-        // — Navigation —
-        defineField({
-            name: 'navigationLinks',
-            title: 'Liens de navigation',
+            name: 'navigation',
+            title: 'Menu de Navigation (Header)',
             type: 'array',
             group: 'navigation',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        defineField({ name: 'name', title: 'Nom', type: 'string' }),
-                        defineField({ name: 'href', title: 'URL', type: 'string' }),
-                    ],
-                    preview: {
-                        select: { title: 'name', subtitle: 'href' },
-                    },
-                },
-            ],
+            of: [{
+                type: 'object',
+                fields: [
+                    { name: 'name', title: 'Nom du lien', type: 'string' },
+                    { name: 'href', title: 'URL/Lien', type: 'string' }
+                ]
+            }]
+        }),
+        defineField({ name: 'cnaps', title: 'Numéro CNAPS', type: 'string', group: ['general', 'navigation'] }),
+
+        defineField({ name: 'phone', title: 'Téléphone affiché', type: 'string', group: 'contact' }),
+        defineField({ name: 'email', title: 'Email de contact', type: 'string', group: 'contact' }),
+        defineField({ name: 'address', title: 'Adresse postale', type: 'text', group: 'contact' }),
+
+        defineField({
+            name: 'smtp_host',
+            title: 'Host SMTP',
+            type: 'string',
+            group: 'smtp',
+            description: 'IONOS: smtp.ionos.fr | Hostinger: smtp.hostinger.com'
         }),
         defineField({
-            name: 'footerServicesLinks',
-            title: 'Liens services (Footer)',
-            type: 'array',
-            group: 'navigation',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        defineField({ name: 'name', title: 'Nom', type: 'string' }),
-                        defineField({ name: 'href', title: 'URL', type: 'string' }),
-                    ],
-                    preview: {
-                        select: { title: 'name', subtitle: 'href' },
-                    },
-                },
-            ],
+            name: 'smtp_port',
+            title: 'Port SMTP',
+            type: 'number',
+            group: 'smtp',
+            initialValue: 465,
+            description: '465 (SSL - Recommandé) ou 587 (TLS/STARTTLS)'
         }),
         defineField({
-            name: 'footerCompanyLinks',
-            title: 'Liens société (Footer)',
-            type: 'array',
-            group: 'navigation',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        defineField({ name: 'name', title: 'Nom', type: 'string' }),
-                        defineField({ name: 'href', title: 'URL', type: 'string' }),
-                    ],
-                    preview: {
-                        select: { title: 'name', subtitle: 'href' },
-                    },
-                },
-            ],
+            name: 'smtp_user',
+            title: 'Utilisateur SMTP',
+            type: 'string',
+            group: 'smtp',
+            description: 'Votre adresse email complète (ex: contact@votre-domaine.fr)'
         }),
         defineField({
-            name: 'footerLegalLinks',
-            title: 'Liens légaux (Footer)',
-            type: 'array',
-            group: 'navigation',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        defineField({ name: 'name', title: 'Nom', type: 'string' }),
-                        defineField({ name: 'href', title: 'URL', type: 'string' }),
-                    ],
-                    preview: {
-                        select: { title: 'name', subtitle: 'href' },
-                    },
-                },
-            ],
+            name: 'smtp_pass',
+            title: 'Mot de passe SMTP',
+            type: 'string',
+            group: 'smtp',
+            description: 'Le mot de passe de votre compte email'
+        }),
+        defineField({
+            name: 'from_email',
+            title: 'Email expéditeur (From)',
+            type: 'string',
+            group: 'smtp',
+            description: 'L\'adresse affichée comme expéditeur (généralement la même que l\'utilisateur)'
+        }),
+        defineField({
+            name: 'to_email',
+            title: 'Email destinataire (To)',
+            type: 'string',
+            group: 'smtp',
+            description: 'L\'adresse qui recevra les notifications (ex: votre adresse pro)'
         }),
 
-        // — Social —
         defineField({
             name: 'socialLinks',
             title: 'Réseaux sociaux',
             type: 'array',
-            group: 'social',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        defineField({
-                            name: 'platform',
-                            title: 'Plateforme',
-                            type: 'string',
-                            options: {
-                                list: [
-                                    { title: 'Facebook', value: 'facebook' },
-                                    { title: 'LinkedIn', value: 'linkedin' },
-                                    { title: 'Instagram', value: 'instagram' },
-                                    { title: 'Twitter/X', value: 'twitter' },
-                                ],
-                            },
-                        }),
-                        defineField({ name: 'url', title: 'URL', type: 'url' }),
-                    ],
-                    preview: {
-                        select: { title: 'platform', subtitle: 'url' },
+            group: ['contact', 'navigation'],
+            of: [{
+                type: 'object',
+                fields: [
+                    { name: 'platform', title: 'Plateforme', type: 'string', options: { list: ['facebook', 'linkedin', 'instagram', 'twitter'] } },
+                    { name: 'url', title: 'Lien', type: 'url' }
+                ]
+            }]
+        }),
+
+        defineField({
+            name: 'footerServicesLinks', title: 'Liens Services (Footer)', type: 'array', group: 'navigation',
+            of: [{ type: 'object', fields: [{ name: 'name', type: 'string' }, { name: 'href', type: 'string' }] }]
+        }),
+        defineField({
+            name: 'footerCompanyLinks', title: 'Liens Société (Footer)', type: 'array', group: 'navigation',
+            of: [{ type: 'object', fields: [{ name: 'name', type: 'string' }, { name: 'href', type: 'string' }] }]
+        }),
+        defineField({
+            name: 'footerLegalLinks', title: 'Liens Légaux (Footer)', type: 'array', group: 'navigation',
+            of: [{ type: 'object', fields: [{ name: 'name', type: 'string' }, { name: 'href', type: 'string' }] }]
+        }),
+        defineField({
+            name: 'floatingButtonColor',
+            title: 'Couleur du bouton flottant',
+            type: 'string',
+            group: 'floating',
+            description: 'Couleur de fond (ex: #003366 ou une classe Tailwind comme bg-primary)'
+        }),
+        defineField({
+            name: 'floatingButtonActions',
+            title: 'Actions du bouton flottant',
+            type: 'array',
+            group: 'floating',
+            of: [{
+                type: 'object',
+                fields: [
+                    { name: 'label', title: 'Libellé', type: 'string' },
+                    { name: 'href', title: 'Lien/URL', type: 'string' },
+                    {
+                        name: 'iconName',
+                        title: 'Icône',
+                        type: 'string',
+                        description: 'Nom de l\'icône Lucide (Phone, FileText, etc.)'
                     },
-                },
-            ],
-        }),
-        defineField({
-            name: 'googleReviewUrl',
-            title: 'URL avis Google',
-            type: 'url',
-            group: 'social',
-        }),
-        defineField({
-            name: 'googleReviewScore',
-            title: 'Note Google (ex: 5.0)',
-            type: 'number',
-            group: 'social',
-            validation: (Rule) => Rule.min(0).max(5),
-            initialValue: 5.0,
+                    { name: 'iconBgColor', title: 'Couleur de fond de l\'icône', type: 'string' },
+                    { name: 'iconColor', title: 'Couleur de l\'icône', type: 'string' }
+                ]
+            }]
         }),
     ],
     preview: {
         prepare() {
             return { title: 'Paramètres du Site' }
-        },
-    },
+        }
+    }
 })

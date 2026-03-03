@@ -1,11 +1,10 @@
-
-import { getPostBySlug, getPosts, urlFor } from "@/lib/sanity";
+import { blogPosts } from "@/lib/blogData";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Calendar, User, Clock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { PortableText } from '@portabletext/react'
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -15,53 +14,21 @@ interface BlogPostPageProps {
 
 // Generate static params for all blog posts to Pre-render them at build time
 export async function generateStaticParams() {
-    const posts = await getPosts();
-    return posts.map((post: any) => ({
+    return blogPosts.map((post) => ({
         slug: post.slug,
     }));
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
-    const post = await getPostBySlug(slug);
+    const post = blogPosts.find((p) => p.slug === slug);
+    const recentPosts = blogPosts
+        .filter((p) => p.slug !== slug)
+        .slice(0, 3);
 
     if (!post) {
         notFound();
     }
-
-    // Prepare display data
-    const dateObj = post.publishedAt ? new Date(post.publishedAt) : new Date();
-    const daDate = isNaN(dateObj.getTime())
-        ? 'Date inconnue'
-        : dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    const author = "L'équipe Security Plus"; // Static for now
-    const category = post.categories?.[0]?.title || 'Actualité';
-    const imageUrl = post.mainImage ? urlFor(post.mainImage).url() : '/images/pattern-security.png';
-
-    // Calculate read time roughly
-    const text = Array.isArray(post.body)
-        ? post.body.map((b: any) => b.children?.map((c: any) => c.text).join('')).join(' ')
-        : '';
-    const readTime = Math.ceil(text.split(' ').length / 200) + ' min';
-
-    // Fetch recent posts for sidebar (exclude current)
-    const allPosts = await getPosts();
-    const recentPosts = Array.isArray(allPosts) ? allPosts
-        .filter((p: any) => p.slug !== slug)
-        .slice(0, 3)
-        .map((p: any) => {
-            const rDateObj = p.publishedAt ? new Date(p.publishedAt) : new Date();
-            const rDate = isNaN(rDateObj.getTime()) ? 'Date inconnue' : rDateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            return {
-                title: p.title,
-                slug: p.slug,
-                date: rDate,
-                category: p.categories?.[0]?.title || 'Actualité',
-                image: p.mainImage ? urlFor(p.mainImage).url() : '/images/pattern-security.png'
-            };
-        }) : [];
 
     return (
         <>
@@ -70,7 +37,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div
                     className="absolute inset-0 z-0 bg-cover bg-center opacity-30 blur-sm"
                     style={{
-                        backgroundImage: `url('${imageUrl}')`,
+                        backgroundImage: `url('${post.image}')`,
                     }}
                 />
                 <div className="container-custom relative z-10 pt-10">
@@ -78,7 +45,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <ArrowLeft size={20} className="mr-2" /> Retour au blog
                     </Link>
                     <div className="bg-primary/20 backdrop-blur-md inline-block px-4 py-1.5 rounded-full text-blue-100 font-semibold text-sm mb-6 border border-white/10">
-                        {category}
+                        {post.category}
                     </div>
                     <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight max-w-4xl">
                         {post.title}
@@ -86,15 +53,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <div className="flex flex-wrap gap-6 text-gray-300 items-center">
                         <div className="flex items-center gap-2">
                             <User size={18} className="text-primary" />
-                            <span>{author}</span>
+                            <span>{post.author}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Calendar size={18} className="text-primary" />
-                            <span>{daDate}</span>
+                            <span>{post.date}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Clock size={18} className="text-primary" />
-                            <span>{readTime} de lecture</span>
+                            <span>{post.readTime} de lecture</span>
                         </div>
                     </div>
                 </div>
@@ -107,7 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         {/* Main Image */}
                         <div className="rounded-2xl overflow-hidden shadow-2xl mb-12 aspect-video relative">
                             <Image
-                                src={imageUrl}
+                                src={post.image}
                                 alt={post.title}
                                 fill
                                 className="object-cover"
@@ -116,9 +83,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </div>
 
                         {/* Content */}
-                        <div className="prose prose-lg prose-blue dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 mb-12">
-                            <PortableText value={post.body} />
-                        </div>
+                        <div
+                            className="prose prose-lg prose-blue dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:text-gray-700 dark:prose-li:text-gray-300 mb-12"
+                            dangerouslySetInnerHTML={{ __html: post.content }}
+                        />
+
+                        {/* Tags Section */}
+                        {post.tags && (
+                            <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mb-12">
+                                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Sujets abordés</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {post.tags.map((tag) => (
+                                        <Link
+                                            key={tag}
+                                            href={`/blog?tag=${tag}`}
+                                            className="px-3 py-1 bg-gray-100 dark:bg-neutral-900 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary-light hover:text-white dark:hover:text-white transition-colors cursor-pointer"
+                                        >
+                                            #{tag}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* CTA Section */}
                         <div className="bg-blue-50 dark:bg-neutral-900 border border-blue-100 dark:border-neutral-800 rounded-2xl p-8 text-center">
@@ -143,7 +129,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <div className="bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 rounded-2xl p-6 sticky top-24">
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Derniers articles</h3>
                             <div className="space-y-6">
-                                {recentPosts.map((recent: any) => (
+                                {recentPosts.map((recent) => (
                                     <Link key={recent.slug} href={`/blog/${recent.slug}`} className="group block">
                                         <div className="flex gap-4 items-start">
                                             <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">

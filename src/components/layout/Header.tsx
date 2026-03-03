@@ -9,11 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import type { SanitySettings } from "@/lib/sanity";
+import { urlFor, type SanitySettings } from "@/lib/sanity";
 
-type HeaderProps = {
-    settings: SanitySettings | null;
-};
+export interface HeaderProps {
+    settings?: SanitySettings | null;
+}
 
 export function Header({ settings }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,8 +21,10 @@ export function Header({ settings }: HeaderProps) {
     const pathname = usePathname();
 
     const isHome = pathname === "/";
+    const phone = settings?.phone || "05 56 44 02 79";
+    const phoneFormatted = `tel:${phone.replace(/\s+/g, '')}`;
 
-    const navigation = settings?.navigationLinks || [
+    const defaultNavigation = [
         { name: "Accueil", href: "/" },
         { name: "Nos Prestations", href: "/nos-prestations" },
         { name: "Qui sommes-nous", href: "/qui-sommes-nous" },
@@ -30,8 +32,7 @@ export function Header({ settings }: HeaderProps) {
         { name: "Contact", href: "/contact" },
     ];
 
-    const phone = settings?.phone || "05 56 44 02 79";
-    const phoneRaw = settings?.phoneRaw || "0556440279";
+    const navigationItems = settings?.navigation?.length ? settings.navigation : defaultNavigation;
 
     // Handle scroll effect
     useEffect(() => {
@@ -68,8 +69,8 @@ export function Header({ settings }: HeaderProps) {
                 <Link href="/" className="flex items-center gap-3">
                     <div className="relative w-12 h-12 md:w-16 md:h-16">
                         <Image
-                            src="/logo.png"
-                            alt="Security Plus Logo"
+                            src={settings?.headerLogo ? urlFor(settings.headerLogo).url() : "/logo.png"}
+                            alt={settings?.siteTitle || "Security Plus Logo"}
                             fill
                             className={cn(
                                 "object-contain transition-all duration-300",
@@ -85,7 +86,7 @@ export function Header({ settings }: HeaderProps) {
                                 (scrolled || !isHome) ? "text-primary dark:text-white" : "text-white"
                             )}
                         >
-                            {settings?.title || "SECURITY PLUS"}
+                            {settings?.siteTitle || "SECURITY PLUS"}
                         </span>
                         <span
                             className={cn(
@@ -100,21 +101,20 @@ export function Header({ settings }: HeaderProps) {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center gap-8">
-                    {navigation.map((item) => (
+                    {navigationItems.map((item) => (
                         <Link
                             key={item.name}
                             href={item.href}
                             className={cn(
-                                "text-sm font-medium transition-colors hover:text-accent relative group",
+                                "text-sm font-medium transition-colors px-3 py-2 rounded-md",
                                 pathname === item.href
-                                    ? "text-accent"
+                                    ? "text-accent bg-accent/10"
                                     : (scrolled || !isHome)
-                                        ? "text-gray-700 dark:text-gray-200"
-                                        : "text-white/90"
+                                        ? "text-gray-700 dark:text-gray-200 hover:text-accent hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        : "text-white/90 hover:text-white hover:bg-white/10"
                             )}
                         >
                             {item.name}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
                         </Link>
                     ))}
                 </nav>
@@ -123,7 +123,7 @@ export function Header({ settings }: HeaderProps) {
                 <div className="hidden lg:flex items-center gap-4">
                     <ThemeToggle />
                     <a
-                        href={`tel:${phoneRaw}`}
+                        href={phoneFormatted}
                         className={cn(
                             "flex items-center gap-2 text-sm font-semibold transition-colors",
                             (scrolled || !isHome) ? "text-primary dark:text-primary-light" : "text-white hover:text-accent"
@@ -188,7 +188,7 @@ export function Header({ settings }: HeaderProps) {
 
                             {/* Menu Items */}
                             <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col gap-2">
-                                {navigation.map((item, i) => (
+                                {navigationItems.map((item, i) => (
                                     <motion.div
                                         key={item.name}
                                         initial={{ opacity: 0, x: 20 }}
@@ -226,7 +226,7 @@ export function Header({ settings }: HeaderProps) {
                             <div className="p-6 border-t border-gray-100 dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-900/50">
                                 <div className="space-y-4">
                                     <Link
-                                        href={`tel:${phoneRaw}`}
+                                        href={phoneFormatted}
                                         className="flex items-center justify-center gap-3 text-lg font-medium text-gray-900 dark:text-white hover:text-primary transition-colors py-2"
                                     >
                                         <Phone size={20} className="text-primary" />

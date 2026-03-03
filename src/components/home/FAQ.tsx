@@ -4,14 +4,42 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { SanityFaq } from "@/lib/sanity";
+import type { SanityPageHome } from "@/lib/sanity";
 
-type FAQProps = {
-    faqs: SanityFaq[];
-};
+const defaultFaqs = [
+    {
+        question: "Quelle est votre zone d'intervention ?",
+        answer: "Nous intervenons principalement en Nouvelle-Aquitaine, avec une forte présence dans un rayon de 50 km autour de Bordeaux (Mérignac, Pessac, Bègles, etc.). Pour des missions spécifiques ou de longue durée, nous pouvons étudier des déploiements plus larges."
+    },
+    {
+        question: "Vos agents sont-ils certifiés ?",
+        answer: "Absolument. 100% de nos agents de sécurité détiennent une carte professionnelle active délivrée par le CNAPS (Conseil National des Activités Privées de Sécurité). Ils sont également formés au secourisme (SST) et suivent des mises à niveau régulières."
+    },
+    {
+        question: "Proposez-vous des agents de sécurité incendie (SSIAP) ?",
+        answer: "Oui, nous disposons d'agents qualifiés SSIAP 1, SSIAP 2 (Chefs d'équipe) et SSIAP 3 (Chefs de service) pour assurer la sécurité incendie de vos Établissements Recevant du Public (ERP) ou Immeubles de Grande Hauteur (IGH)."
+    },
+    {
+        question: "Quel est le délai de mise en place d'une prestation ?",
+        answer: "Notre force est la réactivité. Pour une urgence (intrusion, panne système, sinistre), nous pouvons déployer un agent sous 2 à 4 heures. Pour des contrats planifiés, nous mettons en place le dispositif sous 24 à 48 heures après validation du devis."
+    },
+    {
+        question: "Intervenez-vous pour les particuliers ?",
+        answer: "Tout à fait. Nous proposons des services de surveillance pour les résidences privées (vacances, absences prolongées) ainsi que la sécurisation d'événements privés (mariages, réceptions)."
+    },
+    {
+        question: "Comment obtenir un devis personnalisé ?",
+        answer: "Vous pouvez effectuer une demande de devis gratuitement via notre formulaire en ligne 'Devis', ou nous contacter directement par téléphone au 05 56 44 02 79. Nous nous engageons à vous répondre sous 24h ouvrées."
+    }
+];
 
-export function FAQ({ faqs }: FAQProps) {
+interface FAQProps {
+    data?: SanityPageHome | null;
+}
+
+export function FAQ({ data }: FAQProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const faqs = data?.faqs?.length ? data.faqs : defaultFaqs;
 
     return (
         <section className="py-20 bg-gray-50 dark:bg-neutral-950 transition-colors">
@@ -24,7 +52,7 @@ export function FAQ({ faqs }: FAQProps) {
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
                         <div
-                            key={faq._id}
+                            key={index}
                             className={cn(
                                 "bg-white dark:bg-neutral-900 rounded-xl overflow-hidden border transition-all duration-200",
                                 openIndex === index ? "border-primary/50 shadow-md" : "border-gray-200 dark:border-neutral-800 hover:border-gray-300 dark:hover:border-gray-600"

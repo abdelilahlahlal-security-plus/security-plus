@@ -20,9 +20,9 @@ const config: Config = {
                     dark: '#001a38',
                 },
                 secondary: {
-                    DEFAULT: '#E30613', // Red from logo
-                    light: '#ff3340',
-                    dark: '#b3000a',
+                    DEFAULT: '#FF6B35', // Orange from logo/button
+                    light: '#ff855c',
+                    dark: '#e04e1a',
                 },
                 accent: {
                     DEFAULT: '#FFFFFF', // White

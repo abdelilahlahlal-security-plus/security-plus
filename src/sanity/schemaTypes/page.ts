@@ -7,9 +7,8 @@ export const page = defineType({
     fields: [
         defineField({
             name: 'title',
-            title: 'Titre',
+            title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'slug',
@@ -19,21 +18,12 @@ export const page = defineType({
                 source: 'title',
                 maxLength: 96,
             },
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
-            name: 'content',
-            title: 'Contenu',
+            name: 'body',
+            title: 'Body',
             type: 'array',
-            of: [
-                {
-                    type: 'block',
-                },
-                {
-                    type: 'image',
-                    options: { hotspot: true },
-                },
-            ],
+            of: [{ type: 'block' }],
         }),
     ],
 })

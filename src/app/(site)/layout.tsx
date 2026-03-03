@@ -24,7 +24,7 @@ export default async function SiteLayout({
                 {children}
             </MainContent>
             <Footer settings={settings} />
-            <FloatingContactButton />
+            <FloatingContactButton settings={settings} />
             <CookieConsent />
         </ThemeProvider>
     );
