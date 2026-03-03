@@ -91,7 +91,8 @@ export type SanitySettings = {
 export type SanityPageHome = {
     seo?: SanitySeo
     heroTitle?: string
-    heroSubtitle?: string
+    heroSubtitle1?: string
+    heroSubtitle2?: string
     heroDescription?: string
     heroImage?: SanityImage
     servicesSubtitle?: string

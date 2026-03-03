@@ -19,9 +19,10 @@ export const pageHome = defineType({
         defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo' }),
 
         // Hero
-        defineField({ name: 'heroTitle', title: 'Titre Hero', type: 'string', group: 'hero' }),
-        defineField({ name: 'heroSubtitle', title: 'Sous-titre Hero', type: 'string', group: 'hero' }),
-        defineField({ name: 'heroDescription', title: 'Description Hero', type: 'text', group: 'hero' }),
+        defineField({ name: 'heroTitle', title: 'Titre Hero (Partie 1 - Blanc)', type: 'string', group: 'hero' }),
+        defineField({ name: 'heroSubtitle1', title: 'Sous-titre Hero (Partie 2 - Bleu)', type: 'string', group: 'hero' }),
+        defineField({ name: 'heroSubtitle2', title: 'Sous-titre Hero (Partie 3 - Orange)', type: 'string', group: 'hero' }),
+        defineField({ name: 'heroDescription', title: 'Description Hero (Texte)', type: 'text', group: 'hero' }),
         defineField({ name: 'heroImage', title: 'Image de fond Hero', type: 'image', group: 'hero' }),
 
         // Services

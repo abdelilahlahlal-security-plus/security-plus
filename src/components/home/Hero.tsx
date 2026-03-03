@@ -32,13 +32,12 @@ export function Hero({ data }: HeroProps) {
                 <div className="space-y-8">
                     <h1 className="text-4xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
                         {data?.heroTitle || "Votre sécurité est"} <br />
-                        <span className="text-[#a5b4fc] dark:text-[#818cf8]">{data?.heroDescription?.split(' ')[0] || "notre"} {data?.heroDescription?.split(' ')[1] || "priorité"}</span>{' '}
-                        <span className="text-accent">{data?.heroDescription?.split(' ').slice(2).join(' ') || "absolue"}</span>
+                        <span className="text-[#a5b4fc] dark:text-[#818cf8]">{data?.heroSubtitle1 || "notre priorité"}</span>{' '}
+                        <span className="text-accent">{data?.heroSubtitle2 || "absolue"}</span>
                     </h1>
 
                     <p className="text-lg text-gray-300 dark:text-gray-400 max-w-xl leading-relaxed">
-                        Experts en gardiennage, sécurité incendie et surveillance 24h/24.
-                        Une équipe certifiée CNAPS à votre service pour protéger ce qui compte le plus.
+                        {data?.heroDescription || "Experts en gardiennage, sécurité incendie et surveillance 24h/24. Une équipe certifiée CNAPS à votre service pour protéger ce qui compte le plus."}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4">
