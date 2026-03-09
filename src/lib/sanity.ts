@@ -22,7 +22,7 @@ export function urlFor(source: any) {
 export async function sanityFetch<QueryResponse>({
     query,
     params = {},
-    revalidate = 3600,
+    revalidate = 60,
     tags = [],
 }: {
     query: string;
