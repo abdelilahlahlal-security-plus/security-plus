@@ -195,7 +195,7 @@ const seedData = [
         contactInfoText: 'Nos bureaux sont situés au cœur de Bordeaux, mais nous intervenons sur toute la Gironde.',
         officeHours: 'Lundi - Vendredi : 09h00 - 18h00 / Urgences : 24h/24',
         zoneIntervention: 'Bordeaux, Mérignac, Pessac et toute la Gironde (33).',
-        googleMapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2827.234576367284!2d-0.5180622!3d44.877874999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd552f2fdb3fffff%3A0x28e8c3ebb7465692!2sSECURITY%20PLUS!5e0!3m2!1sfr!2sfr!4v1773060663462!5m2!1sfr!2sfr'
+        googleMapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90479.52909470876!2d-0.6750375961689255!3d44.86370881026071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd552f2fdb3fffff%3A0x28e8c3ebb7465692!2sSECURITY%20PLUS!5e0!3m2!1sfr!2sfr!4v1773060663462!5m2!1sfr!2sfr'
     },
     // 5. Page Prestations
     {
