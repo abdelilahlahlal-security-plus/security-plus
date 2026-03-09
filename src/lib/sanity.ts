@@ -10,7 +10,7 @@ export const client = createClient({
     projectId,
     dataset,
     apiVersion,
-    useCdn: true,
+    useCdn: false, // Désactivé pour assurer la fraîcheur des données éditées
 })
 
 const builder = createImageUrlBuilder(client)
@@ -32,7 +32,7 @@ export async function sanityFetch<QueryResponse>({
 }) {
     return client.fetch<QueryResponse>(query, params, {
         next: {
-            revalidate: tags.length > 0 ? false : revalidate,
+            revalidate: revalidate, // Utiliser revalidate même si tags est présent pour assurer la mise à jour sans webhook
             tags,
         },
     });
