@@ -15,6 +15,7 @@ export default function sitemap(): Metadata & { url: string; lastModified: strin
         '/devis',
         '/mentions-legales',
         '/politique-de-confidentialite',
+        '/cgv',
     ];
 
     const staticEntries = routes.map((route) => ({
