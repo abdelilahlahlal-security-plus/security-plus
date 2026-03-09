@@ -17,10 +17,10 @@ export function ThemeToggle() {
         return <div className="w-10 h-10" />; // Placeholder to avoid layout shift
     }
 
+    const resolvedTheme = theme === 'system' ? 'light' : theme; // Simplified check or use resolvedTheme from useTheme
+
     const cycleTheme = () => {
-        if (theme === 'light') setTheme('dark');
-        else if (theme === 'dark') setTheme('system');
-        else setTheme('light');
+        setTheme(theme === 'dark' ? 'light' : 'dark');
     };
 
     return (
@@ -29,11 +29,9 @@ export function ThemeToggle() {
             size="sm"
             onClick={cycleTheme}
             className="rounded-full w-10 h-10 p-0 text-gray-500 hover:text-primary hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
-            title={`Thème actuel : ${theme === 'system' ? 'Système' : theme === 'dark' ? 'Sombre' : 'Clair'}`}
+            title={`Passer en mode ${theme === 'dark' ? 'clair' : 'sombre'}`}
         >
-            {theme === "light" && <Sun size={20} />}
-            {theme === "dark" && <Moon size={20} />}
-            {theme === "system" && <Computer size={20} />}
+            {mounted && (theme === "dark" ? <Moon size={20} /> : <Sun size={20} />)}
             <span className="sr-only">Changer de thème</span>
         </Button>
     );

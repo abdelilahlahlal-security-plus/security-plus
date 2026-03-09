@@ -28,6 +28,26 @@ export const pageRecrutement = defineType({
         }),
 
         defineField({
+            name: 'recruitmentProcess',
+            title: 'Processus de Recrutement (Étapes)',
+            type: 'array',
+            group: 'career',
+            of: [{
+                type: 'object',
+                fields: [
+                    { name: 'title', title: 'Titre de l\'étape', type: 'string' },
+                    { name: 'description', title: 'Description de l\'étape', type: 'string' },
+                    {
+                        name: 'iconName',
+                        title: 'Nom de l\'icône (Lucide)',
+                        type: 'string',
+                        description: 'Ex: FileText, UserCheck, Briefcase, CheckCircle'
+                    }
+                ]
+            }]
+        }),
+
+        defineField({
             name: 'jobOffers',
             title: 'Offres d\'emploi Actuelles',
             type: 'array',

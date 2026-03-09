@@ -115,7 +115,7 @@ export default async function AboutPage() {
             </section>
 
             {/* Section 4 — Bandeau Agréments */}
-            <section className="py-12 bg-primary text-white text-center">
+            <section className="py-12 bg-primary dark:bg-neutral-900 border-y border-transparent dark:border-neutral-800 text-white text-center">
                 <div className="container-custom">
                     <p className="text-lg font-medium opacity-80 mb-4">
                         {data?.certificationLabel || "Agréments officiels"}

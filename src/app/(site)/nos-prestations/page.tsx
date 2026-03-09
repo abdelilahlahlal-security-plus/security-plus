@@ -178,7 +178,7 @@ export default async function ServicesPage() {
                 </div>
             </div>
 
-            <section className="bg-primary py-16 text-center text-white">
+            <section className="bg-primary dark:bg-neutral-900 border-y border-transparent dark:border-neutral-800 py-16 text-center text-white">
                 <div className="container-custom">
                     <h2 className="text-3xl font-bold mb-4">{data?.ctaTitle || "Un besoin spécifique ?"}</h2>
                     <p className="text-blue-100 mb-8 max-w-2xl mx-auto">

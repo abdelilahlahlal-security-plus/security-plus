@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { Briefcase, UserCheck, FileText, CheckCircle } from "lucide-react";
+import * as Icons from "lucide-react";
 import Link from "next/link";
 import { getPageRecrutement, urlFor } from "@/lib/sanity";
 import { Metadata } from "next";
@@ -72,22 +73,25 @@ export default async function RecruitmentPage() {
                         <div className="bg-gray-50 dark:bg-neutral-900 p-8 rounded-2xl border border-gray-100 dark:border-neutral-800">
                             <h4 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">Notre Processus de Recrutement</h4>
                             <div className="space-y-6">
-                                {[
-                                    { title: "Candidature", desc: "Envoi de CV + Carte Pro CNAPS", icon: FileText },
-                                    { title: "Entretien", desc: "Rencontre avec nos responsables d'exploitation", icon: UserCheck },
-                                    { title: "Vérification", desc: "Contrôle des références et titres", icon: Briefcase },
-                                    { title: "Intégration", desc: "Remise de tenue et prise de poste", icon: CheckCircle },
-                                ].map((step, idx) => (
-                                    <div key={step.title} className="flex items-start gap-4">
-                                        <div className="bg-white dark:bg-neutral-800 p-2 rounded-lg shadow-sm text-primary dark:text-primary-light border border-gray-100 dark:border-neutral-700 shrink-0">
-                                            <step.icon size={20} />
+                                {(data?.recruitmentProcess?.length ? data.recruitmentProcess : [
+                                    { title: "Candidature", description: "Envoi de CV + Carte Pro CNAPS", iconName: "FileText" },
+                                    { title: "Entretien", description: "Rencontre avec nos responsables d'exploitation", iconName: "UserCheck" },
+                                    { title: "Vérification", description: "Contrôle des références et titres", iconName: "Briefcase" },
+                                    { title: "Intégration", description: "Remise de tenue et prise de poste", iconName: "CheckCircle" },
+                                ]).map((step: any, idx) => {
+                                    const IconComponent = (Icons as any)[step.iconName || "CheckCircle"] || CheckCircle;
+                                    return (
+                                        <div key={step.title} className="flex items-start gap-4">
+                                            <div className="bg-white dark:bg-neutral-800 p-2 rounded-lg shadow-sm text-primary dark:text-primary-light border border-gray-100 dark:border-neutral-700 shrink-0">
+                                                <IconComponent size={20} />
+                                            </div>
+                                            <div>
+                                                <h5 className="font-bold text-gray-900 dark:text-white">Etape {idx + 1} : {step.title}</h5>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">{step.description || step.desc}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h5 className="font-bold text-gray-900 dark:text-white">Etape {idx + 1} : {step.title}</h5>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{step.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

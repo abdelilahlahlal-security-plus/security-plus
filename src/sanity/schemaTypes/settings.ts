@@ -1,4 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import { PasswordInput } from '../components/PasswordInput'
+
 
 export const settings = defineType({
     name: 'settings',
@@ -62,7 +64,10 @@ export const settings = defineType({
             title: 'Mot de passe SMTP',
             type: 'string',
             group: 'smtp',
-            description: 'Le mot de passe de votre compte email'
+            description: 'Le mot de passe de votre compte email',
+            components: {
+                input: PasswordInput
+            }
         }),
         defineField({
             name: 'from_email',

@@ -33,9 +33,9 @@
   --gray-text: #A3A3A3;
 
   /* Adjust Brand Colors for Dark Mode */
-  --primary: #60A5FA;
-  /* Softer blue for dark mode text */
-  --primary-light: #93C5FD;
+  --primary: #3b82f6;
+  /* More professional blue than #60A5FA */
+  --primary-light: #60a5fa;
 }
 
 @theme inline {

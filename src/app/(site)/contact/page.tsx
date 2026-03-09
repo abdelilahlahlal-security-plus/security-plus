@@ -124,7 +124,7 @@ export default async function ContactPage() {
             {/* Map Section */}
             <section className="h-[400px] w-full bg-gray-200">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90479.52909470876!2d-0.6750375961689255!3d44.86370881026071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5527e8f751ca81%3A0x796386037b397a89!2sBordeaux!5e0!3m2!1sfr!2sfr!4v1709564245645!5m2!1sfr!2sfr"
+                    src={data?.googleMapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90479.52909470876!2d-0.6750375961689255!3d44.86370881026071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5527e8f751ca81%3A0x796386037b397a89!2sBordeaux!5e0!3m2!1sfr!2sfr!4v1709564245645!5m2!1sfr!2sfr"}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

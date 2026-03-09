@@ -19,6 +19,13 @@ export const pageContact = defineType({
         defineField({ name: 'contactInfoText', title: 'Texte descriptif des coordonnées', type: 'text', group: 'contact' }),
         defineField({ name: 'officeHours', title: 'Texte horaires de bureau', type: 'text', group: 'contact' }),
         defineField({ name: 'zoneIntervention', title: 'Zone d\'intervention (ex: Bordeaux et agglomération)', type: 'text', group: 'contact' }),
+        defineField({
+            name: 'googleMapUrl',
+            title: 'URL de la carte Google Maps (Embed)',
+            type: 'string',
+            group: 'contact',
+            description: 'L\'URL située dans l\'attribut "src" de l\'iframe de partage Google Maps.'
+        }),
     ],
     preview: {
         prepare() {

@@ -6,5 +6,5 @@ export const client = createClient({
     dataset,
     apiVersion,
     useCdn: false, // Use false for server-side fetching to get fresh data
-    token: process.env.SANITY_API_READ_TOKEN, // Optional: if you need to read private data
+    token: process.env.SANITY_API_TOKEN || process.env.SANITY_API_READ_TOKEN, // Optional: if you need to read private data
 })

@@ -288,6 +288,60 @@ const seedData = [
             { _key: key(), id: 'SSIAP-33-04', title: 'Agent SSIAP 1 (H/F)', location: 'Mérignac (33)', type: 'CDD - 6 mois' },
             { _key: key(), id: 'CYNO-33-02', title: 'Agent Cynophile (H/F)', location: 'Cestas (33)', type: 'Vacations' },
         ]
+    },
+    // 8. Mentions Légales
+    {
+        _id: 'mentions-legales',
+        _type: 'page',
+        title: 'Mentions Légales',
+        slug: { _type: 'slug', current: 'mentions-legales' },
+        body: [
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Conformément aux dispositions des articles 6-III et 19 de la Loi n° 2004-575 du 21 juin 2004 pour la Confiance dans l’économie numérique, dite L.C.E.N., nous portons à la connaissance des utilisateurs et visiteurs du site : security-plus.fr les informations suivantes :' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'ÉDITEUR' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Le site security-plus.fr est la propriété exclusive de ' }, { _key: key(), _type: 'span', text: 'SASU SECURITY PLUS', marks: ['strong'] }, { _key: key(), _type: 'span', text: ', qui l’édite.' }] },
+            { _key: key(), _type: 'block', listItem: 'bullet', children: [{ _key: key(), _type: 'span', text: 'SECURITY PLUS', marks: ['strong'] }] },
+            { _key: key(), _type: 'block', listItem: 'bullet', children: [{ _key: key(), _type: 'span', text: 'SASU au capital de 1 000,00 €' }] },
+            { _key: key(), _type: 'block', listItem: 'bullet', children: [{ _key: key(), _type: 'span', text: 'Tél : 07.62.24.85.42' }] },
+            { _key: key(), _type: 'block', listItem: 'bullet', children: [{ _key: key(), _type: 'span', text: '1 AV DE LA RESISTANCE 33310 LORMONT' }] },
+            { _key: key(), _type: 'block', listItem: 'bullet', children: [{ _key: key(), _type: 'span', text: 'Immatriculée au RCS de Bordeaux B 831 642 871' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Directeur de la publication : Abdelilah LAHLAL' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'HÉBERGEMENT' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Le site est hébergé par Ionos (1&1) - 7 Place de la Gare, 57200 Sarreguemines.' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'DESCRIPTION DES SERVICES FOURNIS' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Le site security-plus.fr a pour objet de fournir une information concernant l’ensemble des activités de la société. Bien que nous nous efforcions de fournir des informations précises, nous ne pourrons être tenus responsables des omissions ou inexactitudes.' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'PROPRIÉTÉ INTELLECTUELLE' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Le propriétaire du site détient les droits d’usage sur tous les éléments accessibles sur le site. Toute reproduction ou adaptation est interdite sans autorisation préalable.' }] }
+        ]
+    },
+    // 9. Politique de Confidentialité
+    {
+        _id: 'politique-de-confidentialite',
+        _type: 'page',
+        title: 'Politique de Confidentialité',
+        slug: { _type: 'slug', current: 'politique-de-confidentialite' },
+        body: [
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Le site web SECURITY PLUS est détenu par SECURITY PLUS, qui est un contrôleur de données de vos données personnelles.' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Nous prenons soin de vos données personnelles et nous nous engageons à en garantir la confidentialité et la sécurité.' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'Informations collectées' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Lorsque vous visitez le site, nous recueillons automatiquement certaines informations sur votre appareil (navigateur, IP, fuseau horaire, cookies).' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: 'Vos droits' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Vous disposez d’un droit d’accès, de rectification, de suppression et d’opposition aux données personnelles vous concernant.' }] }
+        ]
+    },
+    // 10. CGV
+    {
+        _id: 'cgv',
+        _type: 'page',
+        title: 'Conditions Générales de Vente (CGV)',
+        slug: { _type: 'slug', current: 'cgv' },
+        body: [
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: '1. OBJET' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre la société SECURITY PLUS et ses clients.' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: '2. PRESTATIONS' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'SECURITY PLUS s\'engage à fournir des prestations de sécurité, de gardiennage et d\'intervention conformes au devis accepté.' }] },
+            { _key: key(), _type: 'block', style: 'h2', children: [{ _key: key(), _type: 'span', text: '3. TARIFS ET PAIEMENT' }] },
+            { _key: key(), _type: 'block', children: [{ _key: key(), _type: 'span', text: 'Les tarifs sont indiqués dans le devis. Le paiement s\'effectue selon les modalités prévues au contrat.' }] }
+        ]
     }
 ]
 

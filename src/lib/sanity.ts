@@ -204,6 +204,7 @@ export type SanityPageContact = {
     contactInfoText?: string
     officeHours?: string
     zoneIntervention?: string
+    googleMapUrl?: string
 }
 
 // 6. Page Devis
@@ -223,6 +224,11 @@ export type SanityPageRecrutement = {
     careerTitle?: string
     careerDescription?: string
     careerAdvantages?: string[]
+    recruitmentProcess?: {
+        title: string
+        description: string
+        iconName?: string
+    }[]
     jobOffers?: {
         id: string
         title: string
@@ -279,5 +285,21 @@ export async function getPageRecrutement() {
     return sanityFetch<SanityPageRecrutement | null>({
         query: `*[_type == "pageRecrutement"][0]`,
         tags: ['pageRecrutement']
+    })
+}
+
+// 8. Generic Page
+export type SanityPage = {
+    title?: string
+    slug?: { current: string }
+    body?: any[]
+    seo?: SanitySeo
+}
+
+export async function getPageBySlug(slug: string) {
+    return sanityFetch<SanityPage | null>({
+        query: `*[_type == "page" && slug.current == $slug][0]`,
+        params: { slug },
+        tags: [`page:${slug}`]
     })
 }

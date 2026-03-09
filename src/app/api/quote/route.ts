@@ -6,23 +6,20 @@ export async function POST(request: Request) {
     try {
         const formData = await request.formData()
 
-        // Extracting all fields from formData
-        const data: any = {}
-        for (const [key, value] of formData.entries()) {
-            if (key !== 'attachment') {
-                data[key] = value
-            }
-        }
+        // Extract basic info for the subject/sender
+        const name = formData.get('fullName') as string
+        const email = formData.get('email') as string
 
         // Fetch SMTP settings from Sanity
         const settings = await client.fetch(`*[_type == "settings"][0]{
-      smtp_host,
-      smtp_port,
-      smtp_user,
-      smtp_pass,
-      from_email,
-      to_email
-    }`)
+            smtp_host,
+            smtp_port,
+            smtp_user,
+            smtp_pass,
+            from_email,
+            to_email,
+            email
+        }`)
 
         if (!settings || !settings.smtp_host) {
             return NextResponse.json({ error: 'SMTP settings not configured' }, { status: 500 })
@@ -38,42 +35,79 @@ export async function POST(request: Request) {
             },
         })
 
+
         const attachments = []
-        for (const entry of formData.entries()) {
-            if (entry[0] === 'attachment' && entry[1] instanceof File) {
-                const file = entry[1]
-                const buffer = Buffer.from(await file.arrayBuffer())
+        const data: Record<string, string> = {}
+
+        // Dynamic processing of all fields and attachments
+        for (const [key, value] of formData.entries()) {
+            if (key === 'attachment' && value instanceof File) {
+                const buffer = Buffer.from(await value.arrayBuffer())
                 attachments.push({
-                    filename: file.name,
+                    filename: value.name,
                     content: buffer,
                 })
+            } else if (typeof value === 'string' && key !== 'attachment') {
+                data[key] = value
             }
         }
 
-        // Prepare HTML table for the email
+        // Map internal keys to friendly French labels for the Quote Wizard
+        const fieldLabels: Record<string, string> = {
+            clientType: 'Type de client',
+            serviceType: 'Type de prestation',
+            location: 'Lieu de mission',
+            department: 'Département',
+            startDate: 'Date de début',
+            duration: 'Durée / Horaires',
+            details: 'Précisions',
+            fullName: 'Nom complet',
+            email: 'Email',
+            phone: 'Téléphone',
+            companyName: 'Nom de la société'
+        }
+
         const rows = Object.entries(data).map(([key, value]) => `
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9; width: 200px;">${key}</td>
-        <td style="padding: 10px; border: 1px solid #ddd;">${value}</td>
-      </tr>
-    `).join('')
+            <tr>
+                <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600; background-color: #f9fafb; width: 200px; color: #374151;">
+                    ${fieldLabels[key] || key}
+                </td>
+                <td style="padding: 12px; border: 1px solid #e5e7eb; color: #4b5563;">
+                    ${value}
+                </td>
+            </tr>
+        `).join('')
 
         const mailOptions = {
-            from: settings.from_email || settings.smtp_user,
+            from: settings.from_email || settings.email || settings.smtp_user,
             to: settings.to_email,
-            subject: `Nouvelle demande de devis de ${data.fullName || 'Client'}`,
+            replyTo: email,
+            subject: `[Devis Web] Demande de ${name} (${data.serviceType || 'Sécurité'})`,
             html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #333;">
-          <h2 style="color: #002C5F;">Nouvelle demande de devis</h2>
-          <p>Voici les détails de la demande envoyée depuis le site web :</p>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-            <tbody>
-              ${rows}
-            </tbody>
-          </table>
-          <p style="margin-top: 20px; font-size: 12px; color: #777;">Cet e-mail a été généré automatiquement par le formulaire de devis de Security Plus.</p>
-        </div>
-      `,
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 650px; margin: 40px auto; color: #1f2937; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    <div style="background-color: #002C5F; padding: 24px; text-align: center;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">Security Plus</h1>
+                        <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 14px;">Nouvelle demande de devis détaillée</p>
+                    </div>
+                    <div style="padding: 32px;">
+                        <p style="font-size: 16px; margin-bottom: 24px;">Bonjour,</p>
+                        <p style="font-size: 16px; margin-bottom: 24px;">Une nouvelle demande de devis a été soumise via le configurateur en ligne. Voici les détails du projet :</p>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 14px;">
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+
+                        <div style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; font-size: 13px; color: #6b7280;">
+                            <p style="margin: 0;"><strong>Action :</strong> Vous pouvez répondre à cet email pour contacter directement <strong>${name}</strong>.</p>
+                        </div>
+                    </div>
+                    <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e5e7eb; font-size: 12px; color: #9ca3af;">
+                        Cet e-mail a été généré par le formulaire de devis de Security Plus.
+                    </div>
+                </div>
+            `,
             attachments,
         }
 

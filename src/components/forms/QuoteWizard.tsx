@@ -132,11 +132,11 @@ export function QuoteWizard({ initialLocation }: { initialLocation?: string }) {
     if (isSubmitted) {
         return (
             <div className="text-center py-16">
-                <div className="inline-flex p-4 rounded-full bg-green-100 text-green-600 mb-6 animate-bounce">
+                <div className="inline-flex p-4 rounded-full bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 mb-6 animate-bounce">
                     <Check size={48} />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Demande reçue avec succès !</h2>
-                <p className="text-lg text-gray-600 max-w-lg mx-auto mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Demande reçue avec succès !</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg mx-auto mb-8">
                     Votre demande de devis a bien été transmise à notre équipe commerciale.
                     Vous recevrez une estimation détaillée sous 24 à 48 heures.
                 </p>

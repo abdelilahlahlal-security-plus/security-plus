@@ -4,11 +4,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await getPageBySlug("mentions-legales");
+    const page = await getPageBySlug("cgv");
     if (!page) return {};
 
-    const title = page.seo?.title || page.title || "Mentions Légales - Security Plus";
-    const description = page.seo?.description || "Mentions légales du site security-plus.fr";
+    const title = page.seo?.title || page.title || "Conditions Générales de Vente - Security Plus";
+    const description = page.seo?.description || "Conditions Générales de Vente du site security-plus.fr";
     const ogImage = page.seo?.image ? urlFor(page.seo.image).width(1200).height(630).url() : null;
 
     return {
@@ -24,8 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 }
 
-export default async function LegalPage() {
-    const page = await getPageBySlug("mentions-legales");
+export default async function CGVPage() {
+    const page = await getPageBySlug("cgv");
 
     if (!page) {
         return notFound();

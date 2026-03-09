@@ -97,6 +97,32 @@ const structure = (S: any) =>
                         .documentId('recrutement')
                 ),
             S.divider(),
+            // Pages Légales (Type 'page' with fixed IDs)
+            S.listItem()
+                .title('Mentions Légales')
+                .icon(() => '⚖️')
+                .child(
+                    S.document()
+                        .schemaType('page')
+                        .documentId('mentions-legales')
+                ),
+            S.listItem()
+                .title('Politique de Confidentialité')
+                .icon(() => '🛡️')
+                .child(
+                    S.document()
+                        .schemaType('page')
+                        .documentId('politique-de-confidentialite')
+                ),
+            S.listItem()
+                .title('CGV')
+                .icon(() => '📜')
+                .child(
+                    S.document()
+                        .schemaType('page')
+                        .documentId('cgv')
+                ),
+            S.divider(),
             // Autres Pages
             S.listItem()
                 .title('Autres Pages (Génériques)')
@@ -104,7 +130,7 @@ const structure = (S: any) =>
                 .child(
                     S.documentTypeList('page')
                         .title('Pages')
-                        .filter('_type == "page" && !(_id in ["contact", "nos-prestations", "about", "devis", "recrutement"])')
+                        .filter('_type == "page" && !(_id in ["mentions-legales", "politique-de-confidentialite", "cgv"])')
                 ),
             /* Commented out as these types are not fully implemented/defined yet
             S.divider(),
