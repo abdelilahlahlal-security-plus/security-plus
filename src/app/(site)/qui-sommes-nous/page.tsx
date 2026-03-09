@@ -120,7 +120,7 @@ export default async function AboutPage() {
                     <p className="text-lg font-medium opacity-80 mb-4">
                         {data?.certificationLabel || "Agréments officiels"}
                     </p>
-                    <div className="text-3xl md:text-5xl font-bold tracking-tight">
+                    <div className="text-xl md:text-2xl font-bold tracking-tight">
                         {data?.certificationPrefix || "Autorisation CNAPS"}{" "}
                         <span className="text-accent block sm:inline">{cnapsNumber}</span>
                     </div>
