@@ -347,17 +347,32 @@ const seedData = [
 ]
 
 async function seed() {
-    console.log('🚀 Starting seeding process...')
+    const forceMode = process.argv.includes('--force')
+
+    if (forceMode) {
+        console.log('🚀 Starting seeding in FORCE mode (will overwrite existing documents)...\n')
+    } else {
+        console.log('🚀 Starting seeding (will skip existing documents)...')
+        console.log('   💡 Use --force to overwrite existing documents.\n')
+    }
 
     for (const doc of seedData) {
         try {
-            console.log(`📦 Seeding document: ${doc._id} (${doc._type})...`)
-
-            // Delete draft to ensure Studio shows published data
-            await client.delete(`drafts.${doc._id}`).catch(() => { })
-
-            await client.createOrReplace(doc as any)
-            console.log(`✅ Success: ${doc._id}`)
+            if (forceMode) {
+                // Delete draft to ensure Studio shows published data
+                await client.delete(`drafts.${doc._id}`).catch(() => { })
+                await client.createOrReplace(doc as any)
+                console.log(`✅ Replaced: ${doc._id}`)
+            } else {
+                // Only create if it doesn't exist yet
+                const existing = await client.getDocument(doc._id)
+                if (existing) {
+                    console.log(`⏭️  Skipped (already exists): ${doc._id}`)
+                } else {
+                    await client.create(doc as any)
+                    console.log(`✅ Created: ${doc._id}`)
+                }
+            }
         } catch (err: any) {
             console.error(`❌ Failed to seed ${doc._id}:`, err.message)
         }
