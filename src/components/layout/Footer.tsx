@@ -16,6 +16,7 @@ const defaultNavigation = {
         { name: "Maître Chien", href: "/nos-prestations#cynophile" },
     ],
     company: [
+        { name: "Secteurs d'Activité", href: "/secteurs-activites" },
         { name: "Qui sommes-nous", href: "/qui-sommes-nous" },
         { name: "Recrutement", href: "/recrutement" },
         { name: "Contact", href: "/contact" },

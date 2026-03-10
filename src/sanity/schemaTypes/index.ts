@@ -10,6 +10,7 @@ import { pageAbout } from './pageAbout'
 import { pageContact } from './pageContact'
 import { pageDevis } from './pageDevis'
 import { pageRecrutement } from './pageRecrutement'
+import { pageSecteurs } from './pageSecteurs'
 import { page } from './page'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -24,6 +25,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         pageContact,
         pageDevis,
         pageRecrutement,
+        pageSecteurs,
         page
     ],
 }

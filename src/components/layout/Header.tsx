@@ -27,6 +27,7 @@ export function Header({ settings }: HeaderProps) {
     const defaultNavigation = [
         { name: "Accueil", href: "/" },
         { name: "Nos Prestations", href: "/nos-prestations" },
+        { name: "Secteurs d'Activité", href: "/secteurs-activites" },
         { name: "Qui sommes-nous", href: "/qui-sommes-nous" },
         { name: "Recrutement", href: "/recrutement" },
         { name: "Contact", href: "/contact" },

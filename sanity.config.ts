@@ -96,6 +96,14 @@ const structure = (S: any) =>
                         .schemaType('pageRecrutement')
                         .documentId('recrutement')
                 ),
+            S.listItem()
+                .title('Page Secteurs d\'Activités')
+                .icon(() => '🏢')
+                .child(
+                    S.document()
+                        .schemaType('pageSecteurs')
+                        .documentId('secteurs-activites')
+                ),
             S.divider(),
             // Pages Légales (Type 'page' with fixed IDs)
             S.listItem()

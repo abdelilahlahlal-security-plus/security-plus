@@ -8,24 +8,28 @@ import { urlFor } from "@/lib/sanity";
 const defaultSectors = [
     {
         name: "Industrie & Logistique",
+        slug: "industrie-logistique",
         description: "Sécurisation des sites de production, entrepôts et zones de fret. Contrôle des flux et prévention des risques.",
         iconName: "Factory",
         image: "/images/sector-industry.png",
     },
     {
         name: "BTP & Chantier",
+        slug: "btp-chantier",
         description: "Surveillance de chantiers, protection contre le vol de matériaux et d'engins, prévention des intrusions.",
         iconName: "HardHat",
         image: "/images/sector-btp.png",
     },
     {
         name: "Santé & Hôpitaux",
+        slug: "sante-hopitaux",
         description: "Sécurité des établissements de soin, gestion des flux patients/visiteurs, sécurité incendie.",
         iconName: "Stethoscope",
         image: "/images/sector-health.png",
     },
     {
         name: "Hôtellerie & Luxe",
+        slug: "hotellerie-luxe",
         description: "Accueil sécurisé, discrétion et surveillance pour hôtels, résidences de prestige et événements VIP.",
         iconName: "Hotel",
         image: "/images/sector-hotel.png",
@@ -37,7 +41,7 @@ interface SectorsProps {
 }
 
 export function Sectors({ data }: SectorsProps) {
-    const sectors = data?.sectors?.length
+    const sectors: any[] = data?.sectors?.length
         ? data.sectors.map(s => ({
             ...s,
             image: s.image ? urlFor(s.image).url() : "/images/hero-bg.png",
@@ -64,8 +68,13 @@ export function Sectors({ data }: SectorsProps) {
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {sectors.map((sector) => {
                         const IconComponent = (Icons as any)[sector.iconName || "Factory"] || Factory;
+                        const slug = sector.slug?.current || sector.slug || sector.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                         return (
-                            <div key={sector.name} className="group relative overflow-hidden rounded-xl aspect-[3/4] cursor-pointer">
+                            <Link
+                                href={`/secteurs-activites#${slug}`}
+                                key={sector.name}
+                                className="group relative overflow-hidden rounded-xl aspect-[3/4] cursor-pointer block"
+                            >
                                 <Image
                                     src={sector.image}
                                     alt={sector.name}
@@ -84,7 +93,7 @@ export function Sectors({ data }: SectorsProps) {
                                         {sector.description}
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>

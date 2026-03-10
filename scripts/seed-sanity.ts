@@ -35,6 +35,7 @@ const seedData = [
         navigation: [
             { _key: key(), name: 'Accueil', href: '/' },
             { _key: key(), name: 'Nos Prestations', href: '/nos-prestations' },
+            { _key: key(), name: 'Secteurs d\'Activité', href: '/secteurs-activites' },
             { _key: key(), name: 'Qui sommes-nous', href: '/qui-sommes-nous' },
             { _key: key(), name: 'Recrutement', href: '/recrutement' },
             { _key: key(), name: 'Contact', href: '/contact' },
@@ -47,6 +48,7 @@ const seedData = [
             { _key: key(), name: 'Maître Chien', href: '/nos-prestations#cynophile' },
         ],
         footerCompanyLinks: [
+            { _key: key(), name: 'Secteurs d\'Activité', href: '/secteurs-activites' },
             { _key: key(), name: 'Qui sommes-nous', href: '/qui-sommes-nous' },
             { _key: key(), name: 'Recrutement', href: '/recrutement' },
             { _key: key(), name: 'Contact', href: '/contact' },
@@ -262,6 +264,117 @@ const seedData = [
         ctaTitle: "Un besoin spécifique ?",
         ctaDescription: "Nous développons des solutions sur mesure pour les secteurs de l'industrie, de la logistique, du tertiaire et de la santé.",
         ctaButtonText: "Contactez-nous"
+    },
+    {
+        _id: 'secteurs-activites',
+        _type: 'pageSecteurs',
+        seoTitle: "Secteurs d'Activité - Security Plus",
+        seoDescription: "Découvrez les secteurs d'activité couverts par Security Plus : industrie, BTP, santé, hôtellerie, commerce, événementiel et bien plus.",
+        heroSubtitle: "Secteurs d'Activité",
+        heroTitle: "Nous protégeons tous les environnements",
+        heroDescription: "De l'industrie à l'événementiel, Security Plus déploie des solutions de sécurité adaptées aux exigences spécifiques de chaque secteur d'activité.",
+        sectors: [
+            {
+                _key: key(),
+                name: "Industrie & Logistique",
+                slug: { _type: 'slug', current: 'industrie-logistique' },
+                iconName: "Factory",
+                shortDescription: "Sécurisation des sites de production, entrepôts et zones de fret.",
+                description: "Les sites industriels et logistiques représentent des enjeux majeurs en matière de sécurité : protection des marchandises, contrôle des flux de véhicules et de personnel, prévention des intrusions et des actes de malveillance. Chez Security Plus, nous déployons des agents qualifiés, formés aux spécificités de chaque environnement industriel.",
+                features: [
+                    "Gardiennage 24h/24 et rondes de surveillance",
+                    "Contrôle d'accès véhicules et piétons",
+                    "Prévention du vol et de la démarque",
+                    "Gestion des flux sur plateformes logistiques",
+                    "Surveillance des zones sensibles (stockage, quais)",
+                    "Rondes mobiles géolocalisées"
+                ]
+            },
+            {
+                _key: key(),
+                name: "BTP & Chantier",
+                slug: { _type: 'slug', current: 'btp-chantier' },
+                iconName: "HardHat",
+                shortDescription: "Surveillance de chantiers, protection contre le vol de matériaux et d'engins.",
+                description: "Les chantiers de construction sont particulièrement vulnérables au vol de matériaux, d'engins et de câbles, surtout en dehors des heures ouvrées. Security Plus assure une surveillance continue et dissuasive pour protéger vos investissements et garantir la continuité de vos travaux.",
+                features: [
+                    "Surveillance de nuit et week-end",
+                    "Protection contre le vol de matériaux et engins",
+                    "Contrôle d'accès aux zones de chantier",
+                    "Rondes de prévention incendie",
+                    "Agent cynophile pour dissuasion renforcée",
+                    "Rapports d'intervention quotidiens"
+                ]
+            },
+            {
+                _key: key(),
+                name: "Santé & Hôpitaux",
+                slug: { _type: 'slug', current: 'sante-hopitaux' },
+                iconName: "Stethoscope",
+                shortDescription: "Sécurité des établissements de soin, gestion des flux patients/visiteurs.",
+                description: "Les établissements de santé (hôpitaux, cliniques, EHPAD) nécessitent une sécurité adaptée, alliant fermeté et bienveillance. Nos agents sont formés à la gestion de situations sensibles : urgences psychiatriques, gestion des visiteurs agressifs, sécurité incendie SSIAP.",
+                features: [
+                    "Agents SSIAP pour la sécurité incendie",
+                    "Filtrage et accueil des visiteurs",
+                    "Gestion des situations d'urgence",
+                    "Surveillance des parkings et accès",
+                    "Rondes intérieures et extérieures",
+                    "Accompagnement du personnel soignant"
+                ]
+            },
+            {
+                _key: key(),
+                name: "Hôtellerie & Luxe",
+                slug: { _type: 'slug', current: 'hotellerie-luxe' },
+                iconName: "Hotel",
+                shortDescription: "Accueil sécurisé, discrétion et surveillance pour hôtels et résidences de prestige.",
+                description: "Dans le secteur de l'hôtellerie et du luxe, la sécurité doit être invisible mais efficace. Nos agents allient professionnalisme, discrétion et sens de l'accueil pour garantir la sérénité de vos clients et la protection de vos établissements.",
+                features: [
+                    "Accueil et filtrage discret",
+                    "Surveillance des espaces communs",
+                    "Protection rapprochée VIP",
+                    "Gestion des événements privés",
+                    "Rondes de sûreté nocturnes",
+                    "Coordination avec les équipes hôtelières"
+                ]
+            },
+            {
+                _key: key(),
+                name: "Commerce & Grande Distribution",
+                slug: { _type: 'slug', current: 'commerce-distribution' },
+                iconName: "ShoppingCart",
+                shortDescription: "Lutte contre la démarque inconnue et sécurisation des espaces commerciaux.",
+                description: "La sécurité en milieu commercial est un levier de performance : réduction de la démarque inconnue, gestion des incivilités et protection des collaborateurs. Nos agents spécialisés en prévol et sûreté assurent une présence dissuasive et professionnelle.",
+                features: [
+                    "Agents de prévention vol (prévol)",
+                    "Surveillance vidéo et arrière-caisse",
+                    "Contrôle des sacs et palpations",
+                    "Gestion des conflits et incivilités",
+                    "Interpellation dans le cadre légal",
+                    "Rapports et statistiques de démarque"
+                ]
+            },
+            {
+                _key: key(),
+                name: "Événementiel",
+                slug: { _type: 'slug', current: 'evenementiel' },
+                iconName: "PartyPopper",
+                shortDescription: "Sécurisation de festivals, concerts, salons et événements d'entreprise.",
+                description: "Security Plus intervient sur tout type d'événement : concerts, festivals, salons professionnels, soirées d'entreprise et manifestations sportives. Nous assurons la sécurité des participants tout en garantissant une expérience fluide et agréable.",
+                features: [
+                    "Accueil et palpation de sécurité",
+                    "Gestion de foule et flux",
+                    "Sécurisation des accès VIP et backstage",
+                    "Équipes cynophiles de détection",
+                    "Coordination avec les forces de l'ordre",
+                    "Plan de sécurité sur mesure"
+                ]
+            }
+        ],
+        ctaTitle: "Votre secteur n'est pas listé ?",
+        ctaDescription: "Nous développons des solutions sur mesure pour tous les environnements. Contactez-nous pour discuter de vos besoins spécifiques.",
+        ctaButtonText: "Contactez-nous",
+        ctaButtonLink: "/contact"
     },
     // 6. Page Devis
     {
