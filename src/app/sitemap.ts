@@ -16,6 +16,7 @@ export default function sitemap(): Metadata & { url: string; lastModified: strin
         '/mentions-legales',
         '/politique-de-confidentialite',
         '/cgv',
+        '/secteurs-activites',
     ];
 
     const staticEntries = routes.map((route) => ({

@@ -56,7 +56,7 @@ export function Sectors({ data }: SectorsProps) {
                             {data?.sectorsTitle || "Nous protégeons tous les environnements"}
                         </h3>
                     </div>
-                    <Link href="/services" className="hidden md:flex items-center text-primary dark:text-primary-light font-semibold hover:text-primary-light dark:hover:text-white group">
+                    <Link href="/secteurs-activites" className="hidden md:flex items-center text-primary dark:text-primary-light font-semibold hover:text-primary-light dark:hover:text-white group">
                         Voir tous nos secteurs <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
@@ -90,7 +90,7 @@ export function Sectors({ data }: SectorsProps) {
                 </div>
 
                 <div className="mt-8 text-center md:hidden">
-                    <Link href="/services" className="inline-flex items-center text-primary font-semibold hover:text-primary-light">
+                    <Link href="/secteurs-activites" className="inline-flex items-center text-primary font-semibold hover:text-primary-light">
                         Voir tous nos secteurs <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                 </div>
