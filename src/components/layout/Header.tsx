@@ -18,6 +18,7 @@ export interface HeaderProps {
 export function Header({ settings }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
 
     const isHome = pathname === "/";
@@ -37,17 +38,13 @@ export function Header({ settings }: HeaderProps) {
 
     // Handle scroll effect
     useEffect(() => {
-        let ticking = false;
+        setMounted(true);
         const handleScroll = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    setScrolled(window.scrollY > 20);
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            setScrolled(window.scrollY > 20);
         };
-        window.addEventListener("scroll", handleScroll);
+        
+        handleScroll(); // Check immediately on mount
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -60,7 +57,7 @@ export function Header({ settings }: HeaderProps) {
         <header
             className={cn(
                 "fixed top-0 w-full z-50 transition-all duration-300 py-3",
-                scrolled || !isHome
+                (!mounted || scrolled || !isHome)
                     ? "bg-white/95 dark:bg-black/90 backdrop-blur-md shadow-md"
                     : "bg-transparent"
             )}
@@ -75,7 +72,7 @@ export function Header({ settings }: HeaderProps) {
                             fill
                             className={cn(
                                 "object-contain transition-all duration-300",
-                                (scrolled || !isHome) ? "brightness-100 invert-0 dark:brightness-0 dark:invert" : "brightness-0 invert"
+                                (!mounted || scrolled || !isHome) ? "brightness-100 invert-0 dark:brightness-0 dark:invert" : "brightness-0 invert"
                             )}
                             priority
                             sizes="(max-width: 768px) 48px, 64px"
@@ -85,7 +82,7 @@ export function Header({ settings }: HeaderProps) {
                         <span
                             className={cn(
                                 "text-xl font-bold tracking-tight leading-none",
-                                (scrolled || !isHome) ? "text-primary dark:text-white" : "text-white"
+                                (!mounted || scrolled || !isHome) ? "text-primary dark:text-white" : "text-white"
                             )}
                         >
                             {settings?.siteTitle || "SECURITY PLUS"}
@@ -93,7 +90,7 @@ export function Header({ settings }: HeaderProps) {
                         <span
                             className={cn(
                                 "text-[10px] font-medium tracking-wider uppercase",
-                                (scrolled || !isHome) ? "text-gray-500 dark:text-gray-400" : "text-gray-200"
+                                (!mounted || scrolled || !isHome) ? "text-gray-500 dark:text-gray-400" : "text-gray-200"
                             )}
                         >
                             Sécurité Privée
@@ -111,7 +108,7 @@ export function Header({ settings }: HeaderProps) {
                                 "text-sm font-medium transition-colors px-3 py-2 rounded-md",
                                 pathname === item.href
                                     ? "text-accent bg-accent/10"
-                                    : (scrolled || !isHome)
+                                    : (!mounted || scrolled || !isHome)
                                         ? "text-gray-700 dark:text-gray-200 hover:text-accent hover:bg-gray-100 dark:hover:bg-gray-800"
                                         : "text-white/90 hover:text-white hover:bg-white/10"
                             )}
@@ -128,14 +125,14 @@ export function Header({ settings }: HeaderProps) {
                         href={phoneFormatted}
                         className={cn(
                             "flex items-center gap-2 text-sm font-semibold transition-colors",
-                            (scrolled || !isHome) ? "text-primary dark:text-primary-light" : "text-white hover:text-accent"
+                            (!mounted || scrolled || !isHome) ? "text-primary dark:text-primary-light" : "text-white hover:text-accent"
                         )}
                     >
                         <Phone size={18} />
                         <span>{phone}</span>
                     </a>
                     <Link href="/devis">
-                        <Button variant={(scrolled || !isHome) ? "primary" : "secondary"} size="sm">
+                        <Button variant={(!mounted || scrolled || !isHome) ? "primary" : "secondary"} size="sm">
                             Devis Gratuit
                         </Button>
                     </Link>
@@ -147,7 +144,7 @@ export function Header({ settings }: HeaderProps) {
                     <button
                         className={cn(
                             "p-2 rounded-md transition-colors cursor-pointer",
-                            (scrolled || !isHome) ? "text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" : "text-white hover:bg-white/10"
+                            (!mounted || scrolled || !isHome) ? "text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" : "text-white hover:bg-white/10"
                         )}
                         onClick={() => setIsOpen(!isOpen)}
                         aria-label="Menu"
