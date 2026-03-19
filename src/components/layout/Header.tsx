@@ -23,7 +23,6 @@ export function Header({ settings }: HeaderProps) {
     // In production/SSR, pathname might be null initially. 
     // We treat null as home to ensure transparency on first load of the landing page.
     const isHome = !pathname || pathname === "/";
-    const isHome = !pathname || pathname === "/";
 
     const defaultNavigation = [
         { name: "Accueil", href: "/" },
