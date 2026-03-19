@@ -23,8 +23,7 @@ export function Header({ settings }: HeaderProps) {
     // In production/SSR, pathname might be null initially. 
     // We treat null as home to ensure transparency on first load of the landing page.
     const isHome = !pathname || pathname === "/";
-    const phone = settings?.phone || "05 56 44 02 79";
-    const phoneFormatted = `tel:${phone.replace(/\s+/g, '')}`;
+    const isHome = !pathname || pathname === "/";
 
     const defaultNavigation = [
         { name: "Accueil", href: "/" },
