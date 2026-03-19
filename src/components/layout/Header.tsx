@@ -21,6 +21,7 @@ export function Header({ settings }: HeaderProps) {
     const pathname = usePathname();
 
     const isHome = pathname === "/";
+    console.log("DEBUG HEADER:", { pathname, isHome, scrolled });
     const phone = settings?.phone || "05 56 44 02 79";
     const phoneFormatted = `tel:${phone.replace(/\s+/g, '')}`;
 
