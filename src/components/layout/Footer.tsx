@@ -17,7 +17,6 @@ const defaultNavigation = {
     ],
     company: [
         { name: "Secteurs d'Activité", href: "/secteurs-activites" },
-        { name: "Qui sommes-nous", href: "/qui-sommes-nous" },
         { name: "Recrutement", href: "/recrutement" },
         { name: "Contact", href: "/contact" },
     ],
@@ -48,7 +47,8 @@ export function Footer({ settings }: FooterProps) {
     const email = settings?.email || "contact@security-plus.fr";
 
     const services = settings?.footerServicesLinks?.length ? settings.footerServicesLinks : defaultNavigation.services;
-    const company = settings?.footerCompanyLinks?.length ? settings.footerCompanyLinks : defaultNavigation.company;
+    const company = (settings?.footerCompanyLinks?.length ? settings.footerCompanyLinks : defaultNavigation.company)
+        .filter(item => item.name !== "Qui sommes-nous");
     const legal = settings?.footerLegalLinks?.length ? settings.footerLegalLinks : defaultNavigation.legal;
     const socialLinks = settings?.socialLinks?.length ? settings.socialLinks : defaultNavigation.social;
 
