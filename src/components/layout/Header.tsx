@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -30,7 +30,6 @@ export function Header({ settings }: HeaderProps) {
         { name: "Accueil", href: "/" },
         { name: "Nos Prestations", href: "/nos-prestations" },
         { name: "Secteurs d'Activité", href: "/secteurs-activites" },
-        { name: "Qui sommes-nous", href: "/qui-sommes-nous" },
         { name: "Recrutement", href: "/recrutement" },
         { name: "Contact", href: "/contact" },
     ];
@@ -118,19 +117,8 @@ export function Header({ settings }: HeaderProps) {
                     ))}
                 </nav>
 
-                {/* Desktop CTA */}
                 <div className="hidden lg:flex items-center gap-4">
                     <ThemeToggle />
-                    <a
-                        href={phoneFormatted}
-                        className={cn(
-                            "flex items-center gap-2 text-sm font-semibold transition-colors",
-                            (scrolled || !isHome) ? "text-primary dark:text-primary-light" : "text-white hover:text-accent"
-                        )}
-                    >
-                        <Phone size={18} />
-                        <span>{phone}</span>
-                    </a>
                     <Link href="/devis">
                         <Button variant={(scrolled || !isHome) ? "primary" : "secondary"} size="sm">
                             Devis Gratuit
@@ -224,13 +212,6 @@ export function Header({ settings }: HeaderProps) {
                             {/* Footer Actions */}
                             <div className="p-6 border-t border-gray-100 dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-900/50">
                                 <div className="space-y-4">
-                                    <Link
-                                        href={phoneFormatted}
-                                        className="flex items-center justify-center gap-3 text-lg font-medium text-gray-900 dark:text-white hover:text-primary transition-colors py-2"
-                                    >
-                                        <Phone size={20} className="text-primary" />
-                                        {phone}
-                                    </Link>
                                     <Link href="/devis" onClick={() => setIsOpen(false)} className="block">
                                         <Button size="lg" className="w-full text-lg h-14 font-bold shadow-lg shadow-primary/20">
                                             Devis Gratuit
