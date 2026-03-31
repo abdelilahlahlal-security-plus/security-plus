@@ -23,15 +23,7 @@ export function Header({ settings }: HeaderProps) {
     // We treat null as home to ensure transparency on first load of the landing page.
     const isHome = !pathname || pathname === "/" || pathname === "";
     
-    useEffect(() => {
-        console.log("PRODUCTION DEBUG - Header State:", {
-            pathname,
-            isHome,
-            scrolled,
-            windowPath: typeof window !== "undefined" ? window.location.pathname : "N/A",
-            windowScroll: typeof window !== "undefined" ? window.scrollY : "N/A"
-        });
-    }, [pathname, isHome, scrolled]);
+
 
     const defaultNavigation = [
         { name: "Accueil", href: "/" },
