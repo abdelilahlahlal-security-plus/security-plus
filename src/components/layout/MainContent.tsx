@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export function MainContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const isHomePage = pathname === "/";
+    const isHomePage = !pathname || pathname === "/" || pathname === "";
 
     return (
         <main
