@@ -19,11 +19,6 @@ export function Header({ settings }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const pathname = usePathname();
-    // In production/SSR, pathname might be null initially. 
-    // We treat null as home to ensure transparency on first load of the landing page.
-    const isHome = !pathname || pathname === "/" || pathname === "";
-    
-
 
     const defaultNavigation = [
         { name: "Accueil", href: "/" },
@@ -55,7 +50,7 @@ export function Header({ settings }: HeaderProps) {
         <header
             className={cn(
                 "fixed top-0 w-full z-50 transition-all duration-300 py-3",
-                (scrolled || !isHome)
+                scrolled
                     ? "bg-white/95 dark:bg-black/90 backdrop-blur-md shadow-md"
                     : "bg-transparent"
             )}
@@ -70,7 +65,7 @@ export function Header({ settings }: HeaderProps) {
                             fill
                             className={cn(
                                 "object-contain transition-all duration-300",
-                                (scrolled || !isHome) ? "brightness-100 invert-0 dark:brightness-0 dark:invert" : "brightness-0 invert"
+                                scrolled ? "brightness-100 invert-0 dark:brightness-0 dark:invert" : "brightness-0 invert"
                             )}
                             priority
                             sizes="(max-width: 768px) 48px, 64px"
@@ -80,7 +75,7 @@ export function Header({ settings }: HeaderProps) {
                         <span
                             className={cn(
                                 "text-xl font-bold tracking-tight leading-none",
-                                (scrolled || !isHome) ? "text-primary dark:text-white" : "text-white"
+                                scrolled ? "text-primary dark:text-white" : "text-white"
                             )}
                         >
                             {settings?.siteTitle || "SECURITY PLUS"}
@@ -88,7 +83,7 @@ export function Header({ settings }: HeaderProps) {
                         <span
                             className={cn(
                                 "text-[10px] font-medium tracking-wider uppercase",
-                                (scrolled || !isHome) ? "text-gray-500 dark:text-gray-400" : "text-gray-200"
+                                scrolled ? "text-gray-500 dark:text-gray-400" : "text-gray-200"
                             )}
                         >
                             Sécurité Privée
@@ -106,7 +101,7 @@ export function Header({ settings }: HeaderProps) {
                                 "text-sm font-medium transition-colors px-3 py-2 rounded-md",
                                 pathname === item.href
                                     ? "text-accent bg-accent/10"
-                                    : (scrolled || !isHome)
+                                    : scrolled
                                         ? "text-gray-700 dark:text-gray-200 hover:text-accent hover:bg-gray-100 dark:hover:bg-gray-800"
                                         : "text-white/90 hover:text-white hover:bg-white/10"
                             )}
@@ -119,7 +114,7 @@ export function Header({ settings }: HeaderProps) {
                 <div className="hidden lg:flex items-center gap-4">
                     <ThemeToggle />
                     <Link href="/devis">
-                        <Button variant={(scrolled || !isHome) ? "primary" : "secondary"} size="sm">
+                        <Button variant={scrolled ? "primary" : "secondary"} size="sm">
                             Devis Gratuit
                         </Button>
                     </Link>
@@ -131,7 +126,7 @@ export function Header({ settings }: HeaderProps) {
                     <button
                         className={cn(
                             "p-2 rounded-md transition-colors cursor-pointer",
-                            (scrolled || !isHome) ? "text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" : "text-white hover:bg-white/10"
+                            scrolled ? "text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" : "text-white hover:bg-white/10"
                         )}
                         onClick={() => setIsOpen(!isOpen)}
                         aria-label="Menu"

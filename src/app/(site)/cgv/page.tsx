@@ -1,5 +1,6 @@
 import { getPageBySlug, urlFor } from "@/lib/sanity";
 import { PortableText } from "@portabletext/react";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -32,12 +33,9 @@ export default async function CGVPage() {
     }
 
     return (
-        <div className="container-custom py-20 bg-white dark:bg-neutral-950 min-h-screen">
-            <h1 className="text-4xl font-bold mb-12 text-gray-900 dark:text-white">
-                {page.title}
-            </h1>
-
-            <div className="space-y-10 text-gray-700 dark:text-gray-300 portable-text">
+        <div className="bg-white dark:bg-neutral-950 min-h-screen pb-20">
+            <PageHeader title={page.title || "Conditions Générales de Vente"} />
+            <div className="container-custom mt-12 space-y-10 text-gray-700 dark:text-gray-300 portable-text">
                 {page.body && <PortableText value={page.body} />}
             </div>
         </div>

@@ -50,7 +50,7 @@ export default async function SecteursActivitesPage() {
     return (
         <>
             {/* Hero Header */}
-            <section className="relative py-20 bg-primary dark:bg-neutral-950 text-white overflow-hidden">
+            <section className="relative pt-32 pb-20 bg-primary dark:bg-neutral-950 text-white overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.05),transparent_50%)]" />
                 <div className="container-custom relative z-10">
                     <p className="text-primary-light dark:text-primary-light font-semibold tracking-wide uppercase text-sm mb-3">
