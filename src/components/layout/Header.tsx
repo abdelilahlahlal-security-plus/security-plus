@@ -33,8 +33,7 @@ export function Header({ settings }: HeaderProps) {
         { name: "Contact", href: "/contact" },
     ];
 
-    const navigationItems = (settings?.navigation?.length ? settings.navigation : defaultNavigation)
-        .filter(item => item.name !== "Qui sommes-nous");
+    const navigationItems = defaultNavigation;
 
     // Handle scroll effect
     useEffect(() => {
