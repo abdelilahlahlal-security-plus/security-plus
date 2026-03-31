@@ -13,7 +13,7 @@ interface HeroProps {
 
 export function Hero({ data }: HeroProps) {
     return (
-        <div className="relative py-24 lg:py-32 flex items-center justify-center overflow-hidden bg-primary dark:bg-black transition-colors duration-500">
+        <div className="relative -mt-20 pt-[176px] pb-24 lg:pt-[208px] lg:pb-32 flex items-center justify-center overflow-hidden bg-primary dark:bg-black transition-colors duration-500">
             {/* Background Image */}
             <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40 transition-opacity duration-500">
                 <Image
