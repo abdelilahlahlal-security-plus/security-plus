@@ -3,6 +3,8 @@ import { PortableText } from "@portabletext/react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PrintButton } from "@/components/ui/PrintButton";
+import { portableTextComponents } from "@/components/ui/PortableTextComponents";
 
 export async function generateMetadata(): Promise<Metadata> {
     const page = await getPageBySlug("mentions-legales");
@@ -35,9 +37,37 @@ export default async function LegalPage() {
     return (
         <div className="bg-white dark:bg-neutral-950 min-h-screen pb-20">
             <PageHeader title={page.title || "Mentions Légales"} />
-            <div className="container-custom mt-12 space-y-10 text-gray-700 dark:text-gray-300 portable-text">
-                {page.body && <PortableText value={page.body} />}
+            <div className="container-custom mt-12">
+                <div className="flex justify-end mb-8">
+                    <PrintButton />
+                </div>
+                
+                <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-100 dark:border-neutral-800 p-8 md:p-12 shadow-sm print:shadow-none print:border-none print:p-0">
+                    <div className="portable-text print:text-black">
+                        {page.body && <PortableText value={page.body} components={portableTextComponents} />}
+                    </div>
+                </div>
             </div>
+
+            <style dangerouslySetInnerHTML={{ __html: `
+                @media print {
+                    .no-print, header, footer, .page-header {
+                        display: none !important;
+                    }
+                    body {
+                        background: white !important;
+                        color: black !important;
+                    }
+                    .container-custom {
+                        max-width: 100% !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                    .bg-white {
+                        background: white !important;
+                    }
+                }
+            `}} />
         </div>
     );
 }
