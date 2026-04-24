@@ -21,7 +21,7 @@ export const PasswordInput = (props: StringInputProps) => {
 
     return (
         <TextInput
-            {...elementProps}
+            {...(elementProps as any)}
             onChange={handleChange}
             value={value}
             type={showPassword ? 'text' : 'password'}

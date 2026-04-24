@@ -8,6 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://security-plus.fr'
+  ),
   title: {
     default: "Security Plus - Sécurité Privée & Gardiennage à Bordeaux",
     template: "%s | Security Plus Bordeaux"

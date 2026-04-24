@@ -237,6 +237,17 @@ export type SanityPageRecrutement = {
     }[]
 }
 
+// 8. Blog Post
+export type SanityPost = {
+    _id: string
+    title: string
+    slug: { current: string }
+    publishedAt: string
+    mainImage: SanityImage
+    image?: SanityImage // Champ alternatif possible
+    excerpt?: string
+}
+
 // --- FETCHERS ---
 
 export async function getSettings() {
@@ -301,5 +312,21 @@ export async function getPageBySlug(slug: string) {
         query: `*[_type == "page" && slug.current == $slug][0]`,
         params: { slug },
         tags: [`page:${slug}`]
+    })
+}
+
+export async function getRecentPosts(limit: number = 3) {
+    return sanityFetch<SanityPost[]>({
+        query: `*[_type == "post"] | order(publishedAt desc)[0...$limit] {
+            _id,
+            title,
+            slug,
+            publishedAt,
+            mainImage,
+            image,
+            excerpt
+        }`,
+        params: { limit },
+        tags: ['posts']
     })
 }
