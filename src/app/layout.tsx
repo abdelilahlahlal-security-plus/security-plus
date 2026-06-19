@@ -54,6 +54,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
+    apple: '/icons/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Security Plus',
   },
   verification: {
     google: 'ID_Google_Search_Console',
@@ -68,6 +75,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#002C5F" />
+        <meta name="mobile-web-app-capable" content="yes" />
+      </head>
       <body
         className={`${inter.variable} antialiased font-sans flex flex-col min-h-screen`}
         suppressHydrationWarning

@@ -1,0 +1,32 @@
+{
+  "name": "Security Plus - Sécurité Privée & Gardiennage",
+  "short_name": "Security Plus",
+  "description": "Agence de sécurité privée à Bordeaux (33). Gardiennage, Sécurité Incendie (SSIAP), Cynophile, Événementiel et Ronde. Intervention 24h/7j en Gironde.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#002C5F",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "fr",
+  "categories": ["business", "security"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
