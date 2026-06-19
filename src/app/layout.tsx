@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ServiceWorkerRegistration } from "@/components/providers/ServiceWorkerRegistration";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -84,6 +85,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );
