@@ -5,6 +5,7 @@ import { CookieConsent } from "@/components/ui/CookieConsent";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { FloatingContactButton } from "@/components/ui/FloatingContactButton";
 import { MainContent } from "@/components/layout/MainContent";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSettings, getRecentPosts } from "@/lib/sanity";
 
 // Import globals CSS only for the website part
@@ -27,6 +28,7 @@ export default async function SiteLayout({
             <Footer settings={settings} recentPosts={recentPosts} />
             <FloatingContactButton settings={settings} />
             <CookieConsent />
+            <SpeedInsights />
         </ThemeProvider>
     );
 }
